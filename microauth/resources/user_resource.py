@@ -1,10 +1,11 @@
 from flask.ext import restful
-from flask.ext.restful import abort, reqparse
+from flask.ext.restful import reqparse
 
 from sqlalchemy.orm import exc
 
 from microauth import db
 from microauth.resources.user import User
+
 
 class UserResource(restful.Resource):
     def get(self, username):

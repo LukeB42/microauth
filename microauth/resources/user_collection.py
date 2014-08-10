@@ -6,6 +6,7 @@ from sqlalchemy import exc
 from microauth import db
 from microauth.resources.user import User
 
+
 class UserCollection(restful.Resource):
     def get(self):
         return [user.jsonify() for user in User.query.all()]
