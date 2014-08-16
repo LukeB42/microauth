@@ -1,9 +1,6 @@
 from flask.ext import restful
 from flask.ext.restful import abort, reqparse
 
-from sqlalchemy import exc
-
-from microauth import db
 from microauth.resources.user import User
 
 
@@ -18,7 +15,10 @@ class UserLogin(restful.Resource):
         user = User.query.filter_by(username=username).first()
 
         if user is None:
-            return {"error": "User {0} not found.".format(username)}, 404
+            abort(
+                404,
+                message="User {0} not found.".format(username)
+                )
 
         if user.verify_password(args.password):
             status = "ok"
