@@ -9,3 +9,8 @@ class TestUser(object):
             "name": "Terry",
             "email": "terrycwk1994@gmail.com"
         }
+
+    def test_verify_password(self):
+        user = User("ayrx", "terrycwk1994@gmail.com", "Terry", "password")
+        assert user.verify_password("password") is True
+        assert user.verify_password("wrong_password") is False
