@@ -35,10 +35,7 @@ class UserResource(restful.Resource):
         user = User.query.filter_by(username=username).first()
 
         if user is None:
-            abort(
-                404,
-                message="User {0} not found.".format(username)
-                )
+            abort(404, message="User {0} not found.".format(username))
 
         if args.username is not None:
             user.username = args.username
