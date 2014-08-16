@@ -10,6 +10,7 @@ setup(
 
     install_requires=[
         "Flask-RESTful",
-        "Flask-SQLAlchemy"
+        "Flask-SQLAlchemy",
+        "bcrypt"
     ]
 )

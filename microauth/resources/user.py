@@ -1,3 +1,5 @@
+import bcrypt
+
 from microauth import db
 
 
@@ -11,7 +13,7 @@ class User(db.Model):
         self.username = username
         self.email = email
         self.name = name
-        self.password = password
+        self.password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
     def jsonify(self):
         return {
@@ -19,3 +21,9 @@ class User(db.Model):
             "name": self.name,
             "email": self.email
         }
+
+    def verify_password(self, password):
+        if bcrypt.hashpw(password.encode(), self.password) == self.password:
+            return True
+        else:
+            return False
