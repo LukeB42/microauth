@@ -5,7 +5,7 @@ from microauth import db
 
 class User(db.Model):
     username = db.Column(db.String(80), primary_key=True)
-    email = db.Column(db.String(120), unique=True)
+    email = db.Column(db.String(254), unique=True)
     name = db.Column(db.String(120))
     password = db.Column(db.String(120))
 
