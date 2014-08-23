@@ -1,0 +1,2 @@
+SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/test.db"
+BCRYPT_ROUNDS = 12
