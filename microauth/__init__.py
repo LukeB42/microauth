@@ -6,6 +6,8 @@ from flask.ext.sqlalchemy import SQLAlchemy
 app = Flask("microauth")
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:////tmp/test.db"
+app.config["BCRYPT_ROUNDS"] = 12
+
 db = SQLAlchemy(app)
 
 api = restful.Api(app)

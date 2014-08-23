@@ -1,6 +1,6 @@
 import bcrypt
 
-from microauth import db
+from microauth import app, db
 
 
 class User(db.Model):
@@ -13,7 +13,9 @@ class User(db.Model):
         self.username = username
         self.email = email
         self.name = name
-        self.password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        self.password = bcrypt.hashpw(
+            password.encode(), bcrypt.gensalt(app.config["BCRYPT_ROUNDS"])
+        )
 
     def jsonify(self):
         return {
