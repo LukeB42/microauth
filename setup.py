@@ -11,6 +11,7 @@ setup(
     install_requires=[
         "Flask-RESTful",
         "Flask-SQLAlchemy",
-        "bcrypt"
+        "bcrypt",
+        "psycopg2"
     ]
 )

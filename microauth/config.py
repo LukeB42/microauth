@@ -1,2 +1,4 @@
-SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/test.db"
+SQLALCHEMY_DATABASE_URI = (
+    "postgresql:///microauth"
+)
 BCRYPT_ROUNDS = 12
