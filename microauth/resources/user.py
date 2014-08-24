@@ -15,7 +15,7 @@ class User(db.Model):
         self.name = name
         self.password = bcrypt.hashpw(
             password.encode(), bcrypt.gensalt(app.config["BCRYPT_ROUNDS"])
-        )
+        ).decode()
 
     def jsonify(self):
         return {
@@ -25,7 +25,9 @@ class User(db.Model):
         }
 
     def verify_password(self, password):
-        if bcrypt.hashpw(password.encode(), self.password) == self.password:
+        if bcrypt.hashpw(
+            password.encode(), self.password.encode()
+        ) == self.password.encode():
             return True
         else:
             return False
