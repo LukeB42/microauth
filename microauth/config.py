@@ -1,8 +1,6 @@
 SQLALCHEMY_DATABASE_URI = (
     "sqlite:///microauth"
 )
-SYSTEMWIDE = True
-MASTER_KEY = None
 MASTER_KEY_NAME = "Master"
 PERMIT_NEW = True
 BCRYPT_ROUNDS = 12
