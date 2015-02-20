@@ -17,7 +17,7 @@ def get(key, cls, attrs=(), page=0, per_page=50):
 		(attr, identifier) = attrs
 		attribute = getattr(cls, attr)
 		if attribute:
-			if key.systemwide:
+			if key.systemwide: # Possibly search for duplicates and resolve to the local object.
 				item = cls.query.filter(
 					or_(and_(attribute==identifier, cls.key == None),
 					and_(attribute==identifier, cls.key == key))

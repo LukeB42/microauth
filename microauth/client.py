@@ -1,6 +1,8 @@
+#!/usr/bin/env python
 import requests
 import pprint
 import json
+import cmd
 import os
 os.environ['no_proxy'] = '127.0.0.1,localhost'
 
@@ -9,25 +11,25 @@ class Client(object):
 		self.key = key
 		self.base = base_url
 		pp = pprint.PrettyPrinter(indent=4)
-		self.pp = pp.pprint
+		self.p = pp.pprint
+		self.verify = True
 
 	def _send_request(self, url, type='GET', body={}, headers={}):
 		headers['Authorization'] =  "Basic %s" % self.key
 		url = self.base+url
 		if type=='GET':
-			resp = requests.get(url, headers=headers)
+			resp = requests.get(url, verify=self.verify, headers=headers)
 		elif type=='DELETE':
-			resp = requests.delete(url, headers=headers)
+			resp = requests.delete(url, verify=self.verify, headers=headers)
 		elif type=='PUT':
-			resp = requests.put(url, data=body, headers=headers)
+			resp = requests.put(url, verify=self.verify, data=body, headers=headers)
 		elif type=='POST':
-			resp = requests.POST(url, data=body, headers=headers)
+			resp = requests.POST(url, verify=self.verify, data=body, headers=headers)
 		try: return resp.json(), resp.status_code
 		except: return {}, resp.status_code
 
-	def p(self, url, type='GET', body={}, headers={}):
-		self.pp(self._send_request(url, type, body, headers))
-
+	def pp(self, url, type='GET', body={}, headers={}):
+		self.p(self._send_request(url, type, body, headers))
 
 	def keys(self, type='GET', body={}, headers={}):
 		return self._send_request("keys", type, body, headers)
@@ -44,6 +46,44 @@ class Client(object):
 	def __repr__(self):
 		return "<API Client for $s>" % self.base
 
+class repl(cmd.Cmd):
+
+	prompt = "> "		
+	intro = "Microauth repl."
+	ruler = '-'
+
+	def do_setkey(self,key):
+		if key:
+			self.key = key
+			self.c.key = key
+			print 'Changed active API key to "%s"' % key
+		else:
+			print "Usage: setkey <key>"
+
+	def do_getkey(self,line):
+		print self.key
+
+	def do_get(self,line):
+		self.c.pp(line)
+
+	def do_put(self,line):
+		self.c.pp(line, 'PUT')
+
+	def do_post(self,line):
+		self.c.pp(line,'POST')
+
+	def do_delete(self,line):
+		self.c.pp(line, 'DELETE')
+
+	def do_EOF(self,line):
+		return True
+
+	def postloop(self):
+		print
+
 if __name__ == "__main__":
-# Possibly an ncurses CRUD app.
-	pass
+	r = repl()
+	r.key = ''
+	r.c = Client('','https://localhost:7789/v1/')
+	r.c.verify = False
+	r.cmdloop()

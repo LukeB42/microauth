@@ -31,20 +31,20 @@ if 'users' not in tables:
 	db.session.commit()
 
 api.add_resource(api_key.KeyCollection, "/keys")
-api.add_resource(api_key.KeyResource, "/keys/<string:name>")
+api.add_resource(api_key.KeyResource,   "/keys/<string:name>")
 
-api.add_resource(users.UserCollection, "/users")
-api.add_resource(users.UserResource, "/users/<string:username>")
-api.add_resource(users.UserLogin, "/users/<string:username>/login")
+api.add_resource(users.UserCollection,  "/users")
+api.add_resource(users.UserResource,    "/users/<string:username>")
+api.add_resource(users.UserLogin,       "/users/<string:username>/login")
 
-api.add_resource(roles.RoleCollection, "/roles")
-api.add_resource(roles.RoleResource, "/roles/<string:name>")
-api.add_resource(roles.GrantPrivs, "/roles/<string:name>/grant")
-api.add_resource(roles.DenyPrivs, "/roles/<string:name>/deny")
-api.add_resource(roles.RevokePrivs, "/roles/<string:name>/revoke")
+api.add_resource(roles.RoleCollection,  "/roles")
+api.add_resource(roles.RoleResource,    "/roles/<string:name>")
+api.add_resource(roles.GrantPrivs,      "/roles/<string:name>/grant")
+api.add_resource(roles.DenyPrivs,       "/roles/<string:name>/deny")
+api.add_resource(roles.RevokePrivs,     "/roles/<string:name>/revoke")
 
-api.add_resource(privs.PrivCollection, "/privs")
-api.add_resource(privs.PrivResource, "/privs/<string:name>")
+api.add_resource(privs.PrivCollection,  "/privs")
+api.add_resource(privs.PrivResource,    "/privs/<string:name>")
 
 
 @app.route('/')
