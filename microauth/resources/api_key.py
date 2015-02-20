@@ -101,9 +101,11 @@ class KeyCollection(restful.Resource):
 				return {'message':"A key already exists with this name."}, 304
 			subject.name = args.name
 		elif args.name and not args.key:
-			subject = APIKey.query.filter(APIKey.key == args.name).first()
+			subject = APIKey.query.filter(APIKey.name == args.name).first()
 		elif args.key and not args.name:
 			subject = APIKey.query.filter(APIKey.key == args.key).first()
+
+		if not subject: abort(404)
 
 		if subject.name == app.config['MASTER_KEY_NAME']: abort(403)
 

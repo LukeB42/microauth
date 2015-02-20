@@ -8,9 +8,6 @@ from microauth.resources.utils import gzipped, get
 from microauth.resources.models import Role, Priv, Acl, User
 
 
-#
-# TODO: post request to move roles into the global namespace.
-#
 class RoleCollection(restful.Resource):
 	@gzipped
 	def get(self):
@@ -56,6 +53,36 @@ class RoleCollection(restful.Resource):
 
 		db.session.commit()
 		return [r.jsonify() for r in roles], 201
+
+
+	def post(self):
+
+		#
+		# TODO: Verify overwrites to global namespace.
+		#
+		key = auth()
+		if not key.systemwide: abort(403)
+
+		parser = reqparse.RequestParser()
+		parser.add_argument("name", type=str, help="Name of roles.", required=True)
+		parser.add_argument("systemwide", type=bool, help="Systemwide flag", required=True, default=None)
+		args = parser.parse_args()
+
+		roles = []
+
+		for n in args.name.split(','):
+			r = get(key, Role, ('name', n))
+			if r:
+				if args.systemwide == True:
+					r.key.roles.remove(r)
+				elif args.systemwide == False and key.global_del:
+					r.key = key
+				roles.append(r)
+				db.session.add(r)
+
+		db.session.commit()
+		return [role.jsonify() for role in roles]
+
 
 	@gzipped
 	def delete(self):
