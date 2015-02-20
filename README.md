@@ -17,3 +17,5 @@ development environment is simple. Simply get Vagrant installed and run
     $ vagrant up
 
 The development environment exposes the service on `localhost:5000`.
+
+Documentation is available to read at the index url.

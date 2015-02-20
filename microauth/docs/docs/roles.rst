@@ -139,7 +139,63 @@ Consuming
 
 Modifying
 -----------------
-The roles endpoint is useful in that an individual role can be modified into its ultimately desired state in one API call.
+Roles can be modified into and out of the global namespace en-masse with a **POST** request to the **/v1/roles** endpoint
+
+.. http:post:: /v1/roles/
+
+    .. code-block:: javascript
+
+        $ http --verify=no post https://127.0.0.1:7789/v1/roles Authorization:"Basic \$2a\$12\$0Yd5C3FWsTlc/SC8WIEGDuVoakU0fEWop81XQSWUOCyOHIP0zJ..q" name=Subscribers,Writers systemwide=1
+        HTTP/1.0 200 OK
+        Content-Length: 262
+        Content-Type: application/json
+        Date: Fri, 20 Feb 2015 14:30:02 GMT
+        Server: Werkzeug/0.10.1 Python/2.7.3
+
+        [   
+            {   
+                "created": "Thursday, 19. February 2015 08:50AM",
+                "name": "Subscribers",
+                "systemwide": true
+            },
+            {   
+                "created": "Thursday, 19. February 2015 08:50AM",
+                "name": "Writers",
+                "systemwide": true
+            }
+        ]
+
+
+
+
+Roles can be modified into and out of the global namespace en-masse with a **POST** request to the **/v1/roles** endpoint
+.. http:post:: /v1/roles/
+
+	.. code-block:: javascript
+
+		$ http --verify=no post https://127.0.0.1:7789/v1/roles Authorization:"Basic \$2a\$12\$0Yd5C3FWsTlc/SC8WIEGDuVoakU0fEWop81XQSWUOCyOHIP0zJ..q" name=Subscribers,Writers systemwide=1
+		HTTP/1.0 200 OK
+		Content-Length: 262
+		Content-Type: application/json
+		Date: Fri, 20 Feb 2015 14:30:02 GMT
+		Server: Werkzeug/0.10.1 Python/2.7.3
+
+		[
+		    {
+		        "created": "Thursday, 19. February 2015 08:50AM",
+		        "name": "Subscribers",  
+		        "systemwide": true
+		    },
+		    {
+		        "created": "Thursday, 19. February 2015 08:50AM",
+		        "name": "Writers",
+		        "systemwide": true
+		    }
+		]
+
+
+
+The roles endpoint is useful in that an individual role can be modified into its ultimately desired state in one call.
 
 .. http:post:: /v1/roles/(name)
 

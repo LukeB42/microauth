@@ -1,8 +1,8 @@
 Administration
 =====================================
 
-Microauth works by parenting objects (*Users*, *Roles* and *Privileges*) to *API Keys*.
-These keys need to be kept secret by developers. Objects that are not parented to an API key are considered global to the system.
+Microauth works by parenting objects (*Users*, *Roles* and *Privileges*) to API Keys.
+Objects that are not parented to an API key are considered global to the system.
 Keys can be switched into systemwide mode, giving them access to these objects.
 
 A simple REST interface is presented at **/keys**, **/users**, **/roles** and **/privs**, using PUT to create, POST to modify,
@@ -87,7 +87,7 @@ This key can be used to determine whether new keys can be created or to simply r
 
 Your first key
 -----------------
-A new (ordinary) API key can be obtained by making a **PUT** request specifying the name of your new program:
+A new (ordinary) key can be obtained by making a **PUT** request specifying the name of your new program:
 
 .. http:put:: /v1/keys
 

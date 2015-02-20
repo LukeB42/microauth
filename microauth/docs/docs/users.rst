@@ -100,8 +100,6 @@ peripherals like card readers or unique strings stegenographically embedded in c
 
 	true
 
-You will have to modify **microauth.resources.users** for your purposes in order to implement peripheral-based authentication.
-
 Authorisation
 -----------------
 .. http:get:: /v1/user/(username)?can=(privilege)

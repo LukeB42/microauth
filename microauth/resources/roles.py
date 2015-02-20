@@ -56,10 +56,6 @@ class RoleCollection(restful.Resource):
 
 
 	def post(self):
-
-		#
-		# TODO: Verify overwrites to global namespace.
-		#
 		key = auth()
 		if not key.systemwide: abort(403)
 
@@ -73,10 +69,16 @@ class RoleCollection(restful.Resource):
 		for n in args.name.split(','):
 			r = get(key, Role, ('name', n))
 			if r:
+
 				if args.systemwide == True:
+					already = get(key,Role,('name',n), local=False)
+					if len(already) > 1:
+						abort(409, message="A systemwide role with this name already exists.")
 					r.key.roles.remove(r)
+
 				elif args.systemwide == False and key.global_del:
 					r.key = key
+
 				roles.append(r)
 				db.session.add(r)
 

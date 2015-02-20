@@ -1,6 +1,6 @@
 Privs
 =====================================
-Privileges behavior is defined by the application developer. Microauth will simply tell you whether a user has access to them.
+Privileges are defined by the application developer. Microauth will simply tell you whether a user has access to them.
 This permits single privileges to have numerous behaviors; Limited only by your imagination.
 
 Creating
