@@ -1,0 +1,29 @@
+/*
+blockquote {
+	color: #6CB2FF;
+	font-family: monospace;
+	border-radius: 5px;
+	background-color: #e6e6e6;
+	padding: 5px;
+}
+.apikey {
+	color: #1A69C0;
+}
+*/
+
+blockquote {
+	color: #000;
+	font-family: monospace;
+	border-radius: 5px;
+	background-color: #F0F0F0;
+	padding: 5px;
+}
+.apikey {
+	color: #007020;
+	font-weight: bold;
+}
+
+div.warning {
+	background-color: #FEDF85;
+	border: 1px solid #F00;
+}
