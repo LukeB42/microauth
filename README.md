@@ -1,11 +1,14 @@
 # Microauth
 
-Microauth is an authentication microservice that aims to make setting up a
-secure authentication flow as simple as possible.
+Microauth is an authentication and authorization microservice that aims to make
+setting up a secure authentication flow as simple as possible.
 
 Microauth exposes a simple to use REST API for registering, updating and
-authenticating users. Important details like proper password hashing are taken
-care of for you.
+authenticating users.
+Important details like proper password hashing are taken care of for you.
+
+Microauth also supports authorization using role-based privileges, and key-based
+authentication.
 
 Microauth is under development and should not be used in production for the
 time being. If you are interested in hacking on Microauth, setting up a
