@@ -105,6 +105,8 @@ class KeyCollection(restful.Resource):
 		elif args.key and not args.name:
 			subject = APIKey.query.filter(APIKey.key == args.key).first()
 
+		if subject.name == app.config['MASTER_KEY_NAME']: abort(403)
+
 		if subject:
 			if args.active        or args.active == False:        subject.active     = args.active
 			if args.systemwide    or args.systemwide == False:    subject.systemwide = args.systemwide

@@ -7,6 +7,10 @@ from microauth.resources.api_key import auth
 from microauth.resources.utils import gzipped, get
 from microauth.resources.models import Role, Priv, Acl, User
 
+
+#
+# TODO: post request to move roles into the global namespace.
+#
 class RoleCollection(restful.Resource):
 	@gzipped
 	def get(self):

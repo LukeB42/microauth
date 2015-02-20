@@ -6,8 +6,12 @@ from cStringIO import StringIO as IO
 from microauth.resources.models import *
 from flask import after_this_request, request
 
-def get(key, cls, attrs=(), page=0, per_page=50):
-
+def get(key, cls, attrs=(), page=0, per_page=50, local=True):
+#
+# Local is a flag that determines whether we only return objects local to the
+# calling key's namespace, or whether we will permit global objects with identical names
+# to local objects in the response.
+#
 	if page and per_page:
 		if key.systemwide:
 			return cls.query.filter(or_(cls.key == None, cls.key == key)).paginate(page, per_page).items
@@ -17,11 +21,16 @@ def get(key, cls, attrs=(), page=0, per_page=50):
 		(attr, identifier) = attrs
 		attribute = getattr(cls, attr)
 		if attribute:
-			if key.systemwide: # Possibly search for duplicates and resolve to the local object.
+			if key.systemwide:
 				item = cls.query.filter(
 					or_(and_(attribute==identifier, cls.key == None),
 					and_(attribute==identifier, cls.key == key))
-				).first()
+				).all()
+				if local:
+					if len(item) == 1: return item[0]
+					for i in item:
+						if i.key == key: return i
+				return item
 			else:
 				item = cls.query.filter(and_(attribute==identifier, cls.key == key)).first()
 			return item
