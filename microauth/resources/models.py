@@ -1,23 +1,4 @@
 # "build your application with a local key, and when it's ready, enable system-wide"
-# make users local to their keys by default. PUT to alter
-# global keys can create keyless privs and roles.
-# global keys can assign from their own privs/roles to orphaned users
-# Prioritise roles and privs that belong to an application.
-# Eg: Prefer to assign wiki.roles.admin to someUser rather than the site-wide administrator role.
-#
-# /v1/keys/ [GET,DELETE, PUT,POST {key:, name:, roles:, privs:, global, global_delete}]
-# /v1/users/Username?can=priv	[GET]
-# /v1/users/Username/roles		[GET]
-# /v1/privs PUT { 'name': 'somePriv', 'global': 0 }
-# /v1/roles PUT { 'name': 'someRole', 'global': 0 }
-# /v/1/roles/someRole GET ({'key': key.name, privs: {privname: allow, privname:deny}, 'users':['someUser'], key:0, privs:{}})
-# /v1/roles/someRole POST { 'allow': 'somePriv' }
-
-#
-# Honour app.config['SYSTEMWIDE']
-# Honour app.config['MASTER_KEY']
-# triple-check key.systemwide/global_del in /roles, /privs, /users
-#
 
 import os
 import json

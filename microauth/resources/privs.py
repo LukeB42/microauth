@@ -36,8 +36,8 @@ class PrivCollection(restful.Resource):
 		key = auth()
 
 		parser = reqparse.RequestParser()
-		parser.add_argument("name", type=str, help="Name of the role to create.", required=True)
-		parser.add_argument("systemwide", type=bool, help="Determines whether the role is systemwide.", default=False)
+		parser.add_argument("name", type=str, help="Name of the privilege to create.", required=True)
+		parser.add_argument("systemwide", type=bool, help="Determines whether the privilege is systemwide.", default=False)
 		args = parser.parse_args()
 
 		msg="Privilege names can only contain any combination of alphanumeric characters, hyphens, underscores and whitespace."
@@ -64,7 +64,7 @@ class PrivCollection(restful.Resource):
 
 		parser = reqparse.RequestParser()
 		parser.add_argument("name", type=str, help="Name of the privilege to create.", required=True)
-		parser.add_argument("systemwide", type=bool, help="Determines whether the role is systemwide.", default=None)
+		parser.add_argument("systemwide", type=bool, help="Determines whether the privilege is systemwide.", required=True, default=None)
 		args = parser.parse_args()
 
 		msg="Privilege names may only contain alphanumeric characters, hyphens, underscores and whitespace."
@@ -93,7 +93,7 @@ class PrivCollection(restful.Resource):
 		key = auth()
 
 		parser = reqparse.RequestParser()
-		parser.add_argument("name", type=str, help="Name of the role to create.", required=True)
+		parser.add_argument("name", type=str, help="Name of the privilege to delete.", required=True)
 		args = parser.parse_args()
 
 		privs=[]
