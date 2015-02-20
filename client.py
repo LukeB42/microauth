@@ -22,7 +22,7 @@ class Client(object):
 		if type=='GET':
 			resp = requests.get(url, verify=self.verify, headers=headers)
 		elif type=='DELETE':
-			resp = requests.delete(url, verify=self.verify, headers=headers)
+			resp = requests.delete(url, verify=self.verify, data=body, headers=headers)
 		elif type=='PUT':
 			resp = requests.put(url, verify=self.verify, data=body, headers=headers)
 		elif type=='POST':
@@ -54,6 +54,17 @@ class repl(cmd.Cmd):
 	intro = "Microauth repl."
 	ruler = '-'
 
+	def parse_args(self, args):
+		body = {}
+		args = args.split()
+		for i in args:
+			try:
+				x=i.split('=')
+				body[x[0]] = x[1]
+			except: continue
+		return body
+
+
 	def do_setkey(self,key):
 		if key:
 			self.c.key = key
@@ -68,13 +79,19 @@ class repl(cmd.Cmd):
 		self.c.pp(line)
 
 	def do_put(self,line):
-		self.c.pp(line, 'PUT')
+		line, body = line.split(' ',1)
+		body = self.parse_args(body)
+		self.c.pp(line, 'PUT', body)
 
 	def do_post(self,line):
-		self.c.pp(line,'POST')
+		line, body = line.split(' ',1)
+		body = self.parse_args(body)
+		self.c.pp(line, 'POST', body)
 
 	def do_delete(self,line):
-		self.c.pp(line, 'DELETE')
+		line, body = line.split(' ',1)
+		body = self.parse_args(body)
+		self.c.pp(line, 'DELETE', body)
 
 	def do_EOF(self,line):
 		return True
