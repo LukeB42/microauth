@@ -4,7 +4,9 @@ import pprint
 import json
 import cmd
 import os
+from microauth.resources.models import APIKey
 os.environ['no_proxy'] = '127.0.0.1,localhost'
+requests.packages.urllib3.disable_warnings()
 
 class Client(object):
 	def __init__(self, key, base_url):
@@ -54,14 +56,13 @@ class repl(cmd.Cmd):
 
 	def do_setkey(self,key):
 		if key:
-			self.key = key
 			self.c.key = key
 			print 'Changed active API key to "%s"' % key
 		else:
 			print "Usage: setkey <key>"
 
 	def do_getkey(self,line):
-		print self.key
+		print self.c.key
 
 	def do_get(self,line):
 		self.c.pp(line)
@@ -83,7 +84,7 @@ class repl(cmd.Cmd):
 
 if __name__ == "__main__":
 	r = repl()
-	r.key = ''
 	r.c = Client('','https://localhost:7789/v1/')
+	r.c.key = APIKey.query.first().key
 	r.c.verify = False
 	r.cmdloop()
