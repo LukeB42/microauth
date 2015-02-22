@@ -1,10 +1,8 @@
-#!/usr/bin/env python
 import requests
 import pprint
 import json
 import cmd
 import os
-from microauth.resources.models import APIKey
 os.environ['no_proxy'] = '127.0.0.1,localhost'
 requests.packages.urllib3.disable_warnings()
 
@@ -47,61 +45,3 @@ class Client(object):
 
 	def __repr__(self):
 		return "<API Client for $s>" % self.base
-
-class repl(cmd.Cmd):
-
-	prompt = "> "		
-	intro = "Microauth repl."
-	ruler = '-'
-
-	def parse_args(self, args):
-		body = {}
-		args = args.split()
-		for i in args:
-			try:
-				x=i.split('=')
-				body[x[0]] = x[1]
-			except: continue
-		return body
-
-
-	def do_setkey(self,key):
-		if key:
-			self.c.key = key
-			print 'Changed active API key to "%s"' % key
-		else:
-			print "Usage: setkey <key>"
-
-	def do_getkey(self,line):
-		print self.c.key
-
-	def do_get(self,line):
-		self.c.pp(line)
-
-	def do_put(self,line):
-		line, body = line.split(' ',1)
-		body = self.parse_args(body)
-		self.c.pp(line, 'PUT', body)
-
-	def do_post(self,line):
-		line, body = line.split(' ',1)
-		body = self.parse_args(body)
-		self.c.pp(line, 'POST', body)
-
-	def do_delete(self,line):
-		line, body = line.split(' ',1)
-		body = self.parse_args(body)
-		self.c.pp(line, 'DELETE', body)
-
-	def do_EOF(self,line):
-		return True
-
-	def postloop(self):
-		print
-
-if __name__ == "__main__":
-	r = repl()
-	r.c = Client('','https://localhost:7789/v1/')
-	r.c.key = APIKey.query.first().key
-	r.c.verify = False
-	r.cmdloop()

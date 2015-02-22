@@ -10,12 +10,6 @@ Important details like proper password hashing are taken care of for you.
 Microauth also supports authorization using role-based privileges, and key-based
 authentication.
 
-Microauth is under development and should not be used in production for the
-time being. If you are interested in hacking on Microauth, setting up a
-development environment is simple. Simply get Vagrant installed and run
+To install Microauth simply run `sudo python setup.py install`
 
-    $ vagrant up
-
-The development environment exposes the service on `localhost:5000`.
-
-Documentation is available to read at the index `/`.
+Once running, ocumentation is available to read at the index `/`.
