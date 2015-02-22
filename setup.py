@@ -13,5 +13,6 @@ setup(
         "Flask-SQLAlchemy",
         "bcrypt",
         "requests",
+        "pyopenssl",
     ]
 )
