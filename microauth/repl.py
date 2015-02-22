@@ -93,9 +93,10 @@ if __name__ == "__main__":
 	r.c.key = APIKey.query.first().key
 	r.c.verify = False
 	r.highlight = highlight
-	r.AVAILABLE_STYLES = set(STYLE_MAP.keys())
-	if 'tango' in r.AVAILABLE_STYLES: r.style = 'tango'
-	else:
-		for s in r.AVAILABLE_STYLES: break
-		r.style = s
+	if highlight:
+		r.AVAILABLE_STYLES = set(STYLE_MAP.keys())
+		if 'tango' in r.AVAILABLE_STYLES: r.style = 'tango'
+		else:
+			for s in r.AVAILABLE_STYLES: break
+			r.style = s
 	r.cmdloop()
