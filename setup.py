@@ -3,8 +3,8 @@ from setuptools import setup
 
 setup(
     name="microauth",
-
-    packages=["microauth"],
+    version='0.1',
+    packages=["microauth", "microauth.resources"],
     include_package_data=True,
     zip_safe=False,
 

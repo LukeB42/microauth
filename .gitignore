@@ -10,3 +10,7 @@ htmlcov/
 *.egg
 *.py[co]
 .vagrant/
+cert
+key
+keyfile
+microauth/microauth

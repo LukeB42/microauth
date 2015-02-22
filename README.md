@@ -11,5 +11,9 @@ Microauth also supports authorization using role-based privileges, and key-based
 authentication.
 
 To install Microauth simply run `sudo python setup.py install`
+Once installed, try `python -m microauth.run --help` for help on running the service.
+You will need to export MICROAUTH_DATABASE into the environment.
 
-Once running, ocumentation is available to read at the index `/`.
+Once running, Documentation is available to read at the index `/` and a repl is available
+via `python -m microauth.repl`.
+

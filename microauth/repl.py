@@ -78,7 +78,7 @@ class repl(cmd.Cmd):
 			self.style = style
 			print 'Changed style to "%s"' % style
 		else:
-			print self.AVAILABLE_STYLES
+			print ', '.join(self.AVAILABLE_STYLES)
 			print 'Currently using "%s"' % self.style
 
 	def display(self, response):
