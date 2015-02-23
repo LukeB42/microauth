@@ -1,11 +1,11 @@
-from setuptools import setup
-
+from setuptools import setup, find_packages
 
 setup(
     name="microauth",
     version='0.1',
     packages=["microauth", "microauth.resources"],
-    include_package_data=True,
+    package_data={'microauth': ['docs/*',]},
+	
     zip_safe=False,
 
     install_requires=[

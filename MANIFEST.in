@@ -1,0 +1,5 @@
+recursive-include docs *
+recursive-include docs/_build/html *
+recursive-include docs/_build/doctrees *
+recursive-include docs/_static *
+recursive-include docs/_templates *

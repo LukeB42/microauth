@@ -156,29 +156,38 @@ class UserLogin(restful.Resource):
 
 	def get(self, username):
 		key = auth()
-
-		parser = reqparse.RequestParser()
-		parser.add_argument("password", type=str, help="Password of account", required=True)
-		args = parser.parse_args()
-
 		user = get(key, User, ('username', username))
 
 		if user is None:
 			abort(404, message="User {0} not found.".format(username))
 
+		parser = reqparse.RequestParser()
+		parser.add_argument("password", type=str, help="Password of account", required=True)
+		args = parser.parse_args()
+
 		if user.verify_password(args.password):
-			status = True
 			user.last_login = datetime.datetime.now()
 			db.session.commit()
-		else:
-			status = False
+			return True
+		return False
 
-		return {"status": status}
 
 
 	def post(self, username):
 		key = auth()
 		user = get(key, User, ('username', username))
+
+		parser = reqparse.RequestParser()
+		parser.add_argument("password", type=str, help="Password of account")
+		args = parser.parse_args()
+
+		if args.password:
+			if user.verify_password(args.password):
+				user.last_login = datetime.datetime.now()
+				db.session.commit()
+				return True
+			return False
+
 		#
 		# File-based authentication would be good for card readers
 		# stegenographically embedded UIDs in cat macros or thumbprints.
@@ -190,10 +199,13 @@ class UserLogin(restful.Resource):
 			print f
 			print "Nonzero:", f.__nonzero__()
 			tmp_buffer = cStringIO.StringIO(f.read())
-			if user.keyfile == tmp_buffer.read():
-				return True
-			return False
-			tmp_buffer.close()
 			request.files['keyfile'].close()
+			if user.keyfile == tmp_buffer.read():
+				tmp_buffer.close()
+				user.last_login = datetime.datetime.now()
+				db.session.commit()
+				return True
+			tmp_buffer.close()
+			return False
 
 		return {},400
