@@ -178,7 +178,7 @@ class UserLogin(restful.Resource):
 		user = get(key, User, ('username', username))
 
 		parser = reqparse.RequestParser()
-		parser.add_argument("password", type=str, help="Password of account")
+		parser.add_argument("password", type=str, help="Password of account", default=None)
 		args = parser.parse_args()
 
 		if args.password:

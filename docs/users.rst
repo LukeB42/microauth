@@ -50,13 +50,15 @@ Authentication
 		Date: Thu, 19 Feb 2015 12:43:07 GMT
 		Server: Werkzeug/0.10.1 Python/2.7.3
 
-		{
-		    "status": true
-		}
+		true
 
 	.. raw:: html
 
-		An incorrect password would result in <span class="apikey">false</span>.
+		An incorrect password would result in <span class="apikey">false</span>.<br /><br />
+
+
+		To avoid sending passwords as a URL parameter it is possible to authenticate with a <strong>POST</strong> request to the <strong>/users/</strong>username<strong>/login</strong> endpoint with a <strong>password</strong> field in the request body.<br />
+		It's not RESTful in that you're not updating a resource but it keeps passwords out of terminal memory.
 
 Key files
 ^^^^^^^^^^^^^^^^^

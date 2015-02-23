@@ -24,7 +24,7 @@ class Client(object):
 		elif type=='PUT':
 			resp = requests.put(url, verify=self.verify, data=body, headers=headers)
 		elif type=='POST':
-			resp = requests.POST(url, verify=self.verify, data=body, headers=headers)
+			resp = requests.post(url, verify=self.verify, data=body, headers=headers)
 		try: return resp.json(), resp.status_code
 		except: return {}, resp.status_code
 

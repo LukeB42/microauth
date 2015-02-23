@@ -33,5 +33,5 @@ Indices and tables
 .. raw:: html
 
 	<center><small>
-	Microauth currently exists in an uncertain state regarding a license.
+	Microauth is currently dual-licensed under the MIT license and the Apache license version 2.
 	</small></center>
