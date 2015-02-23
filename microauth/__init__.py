@@ -56,23 +56,3 @@ api.add_resource(roles.RevokePrivs,     "/roles/<string:name>/revoke")
 
 api.add_resource(privs.PrivCollection,  "/privs")
 api.add_resource(privs.PrivResource,    "/privs/<string:name>")
-
-
-path =  os.path.abspath(__file__,)
-path = path.split(os.path.sep)
-path = path[:-1]
-path =  os.path.sep.join(path) + os.path.sep
-
-
-@app.route('/')
-def docs_index():
-	f = open(path + 'docs%sindex.html' % os.path.sep)
-	response = f.read()
-	f.close()
-	return response
-
-@app.route('/<path:path>')
-def docs(path):
-	return send_from_directory(path + 'docs'+os.path.sep, path)
-
-

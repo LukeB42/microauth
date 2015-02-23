@@ -16,5 +16,5 @@ Once installed, try `python -m microauth.run --help` for help on running the ser
 
 An interactive interpreter can be started with `python -m microauth.repl`.
 
-Documentation is available to read at the index `/`.
-
+Documentation is available to read by navigating to `docs/_build/html`, running
+`python -m SimpleHTTPServer` and visiting `localhost:8000/index.html` in your browser.
