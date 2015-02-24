@@ -21,11 +21,17 @@ class UserCollection(restful.Resource):
 		parser = reqparse.RequestParser()
 		parser.add_argument("page", type=int, help="Current page number.")
 		parser.add_argument("per_page", type=int, help="Items per page.")
+		parser.add_argument("id", type=str, help="Unique ID")
 		args = parser.parse_args()
 		if args.page:
 			if args.per_page:
 				return [user.jsonify() for user in get(key, User, page=args.page, per_page=args.per_page)]
 			return [user.jsonify() for user in get(key, User, page=args.page)]
+
+		if args.id:
+			user = get(key, User, ('uid', args.id))
+			if not user: abort(404)
+			return user.jsonify()
 
 		return [user.jsonify() for user in get(key, User)]
 
