@@ -27,7 +27,7 @@ from microauth.resources import models
 inspector = Inspector.from_engine(db.engine)
 tables = [table_name for table_name in inspector.get_table_names()]
 
-if __name__ == "__main__" and 'users' not in tables:
+if 'users' not in tables:
 	db.create_all()
 	master = models.APIKey(name = app.config['MASTER_KEY_NAME'])
 	if app.config['MASTER_KEY']: master.key = app.config['MASTER_KEY']

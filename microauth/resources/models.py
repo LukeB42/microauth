@@ -5,6 +5,7 @@ import json
 import bcrypt
 from microauth import app, db
 from sqlalchemy import and_, or_
+from microauth.resources.utils import uid
 from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
@@ -14,7 +15,7 @@ class APIKey(db.Model):
 	name       = db.Column(db.String(80))
 	key        = db.Column(db.String(120))	
 	active     = db.Column(db.Boolean())
-	created    = db.Column(db.DateTime())
+	created    = db.Column(db.DateTime(), default=db.func.now())
 	systemwide = db.Column(db.Boolean())
 	global_del = db.Column(db.Boolean())
 	users = db.relationship("User", backref="key")
@@ -141,6 +142,7 @@ class User(db.Model):
 	username    = db.Column(db.String(15))                # The username (required)
 	email       = db.Column(db.String(20), unique=True)   # The email address (required)
 	name        = db.Column(db.String(30))                # The name of the user (required)
+	uid         = db.Column(db.String(20), default=uid()) # An immutable unique ID so that usernames can be changed
 	preferences = db.Column(db.PickleType())              # A field for storing json (cannot be queried directly)
 	password    = db.Column(db.String(30))                # Password (required)
 	keyfile     = db.Column(db.LargeBinary(2*1000000000)) # Binary object for embedding keyfiles. (2gb default)
@@ -164,6 +166,7 @@ class User(db.Model):
 			"name": self.name,
 			"email": self.email,
 			"systemwide": False,
+			"id": self.uid,
 			"created": self.created.strftime("%A, %d. %B %Y %I:%M%p")
 		}
 		if self.last_login:

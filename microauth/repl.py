@@ -40,28 +40,26 @@ class repl(cmd.Cmd):
 	def do_get(self,line):
 		response = self.c._send_request(line)
 		self.display(response)
-#		self.c.pp(line)
 
 	def do_put(self,line):
 		line, body = line.split(' ',1)
 		body = self.parse_args(body)
 		response = self.c._send_request(line, 'PUT', body)
 		self.display(response)
-#		self.c.pp(line, 'PUT', body)
 
 	def do_post(self,line):
 		line, body = line.split(' ',1)
 		body = self.parse_args(body)
 		response = self.c._send_request(line, 'POST', body)
 		self.display(response)
-#		self.c.pp(line, 'POST', body)
 
 	def do_delete(self,line):
-		line, body = line.split(' ',1)
-		body = self.parse_args(body)
+		if ' ' in line:
+			line, body = line.split(' ',1)
+			body = self.parse_args(body)
+		else: body = ''
 		response = self.c._send_request(line, 'DELETE', body)
 		self.display(response)
-#		self.c.pp(line, 'DELETE', body)
 
 	def do_EOF(self,line):
 		return True
@@ -90,7 +88,11 @@ class repl(cmd.Cmd):
 if __name__ == "__main__":
 	r = repl()
 	r.c = Client('','https://localhost:7789/v1/')
-	r.c.key = APIKey.query.first().key
+
+	r.c.key = ""
+	k = APIKey.query.first()
+	if k: r.c.key = k.key
+
 	r.c.verify = False
 	r.highlight = highlight
 	if highlight:

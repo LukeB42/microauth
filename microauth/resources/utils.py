@@ -1,4 +1,7 @@
 import gzip
+import time
+import base64
+import datetime
 import functools 
 from microauth import app
 from sqlalchemy import or_, and_
@@ -78,3 +81,10 @@ def gzipped(f):
 		return f(*args, **kwargs)
 
 	return view_func
+
+def uid():
+	millis = int(round(time.time() * 1000))
+	dt = datetime.datetime.now()
+	millis = str(millis)+str(dt.microsecond)
+	return str(base64.b64encode(millis)).strip('==')[-13:] # Adjust slicing to suit
+
