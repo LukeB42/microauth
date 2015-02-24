@@ -8,7 +8,7 @@ from flask import Flask, send_from_directory
 from sqlalchemy.engine.reflection import Inspector
 
 __path__ = extend_path(__path__, __name__)
-__all__ = ["run", "repl", "resources"]
+__all__ = ["run", "client", "repl", "resources"]
 
 app = Flask("microauth")
 app.config.from_object("microauth.config")

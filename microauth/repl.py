@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-from microauth.resources.client import Client
 from microauth.resources.models import APIKey
+from microauth.client import Client
 import json
 import cmd
 try:

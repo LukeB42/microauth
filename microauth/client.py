@@ -13,6 +13,7 @@ class Client(object):
 		pp = pprint.PrettyPrinter(indent=4)
 		self.p = pp.pprint
 		self.verify = True
+		self.username = None
 
 	def _send_request(self, url, type='GET', body={}, headers={}):
 		headers['Authorization'] =  "Basic %s" % self.key
@@ -42,6 +43,12 @@ class Client(object):
 
 	def privs(self, type='GET', body={}, headers={}):
 		return self._send_request("privs", type, body, headers)
+
+	def can(priv):
+		if self.username:
+			(resp, status) =  self._send_request('/users/%s?can=%s' % (self.username, priv)
+			if status == 200: return resp
+		raise Exception("No username attribute defined.")
 
 	def __repr__(self):
 		return "<API Client for $s>" % self.base
