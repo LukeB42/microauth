@@ -30,6 +30,20 @@ class Client(object):
 		try: return resp.json(), resp.status_code
 		except: return {}, resp.status_code
 
+
+	def get(url, body={}, headers={}):
+		return self._send_request(url, body, headers)
+
+
+	def put(url, body={}, headers={}):
+		return self._send_request(url, type='PUT', body, headers)
+
+	def post(url, body={}, headers={}):
+		return self._send_request(url, type='POST', body, headers)
+
+	def delete(url, body={}, headers={}):
+		return self._send_request(url, type='DELETE', body, headers)
+
 	def pp(self, url, type='GET', body={}, headers={}):
 		self.p(self._send_request(url, type, body, headers))
 
