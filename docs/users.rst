@@ -122,3 +122,11 @@ Authorisation
 	.. raw:: html
 
 		<span class="apikey">null</span> would mean the privilege wasn't available through any associated roles.
+
+Deleting
+-----------------
+.. http:delete:: /v1/users/(username)
+
+	.. raw:: html
+
+		Deleting users is as simple as sending a <strong>DELETE</strong> request to the <strong>/users/</strong><em>username</em> endpoint.

@@ -92,8 +92,7 @@ if __name__ == "__main__":
 	r.c.key = ""
 	k = APIKey.query.first()
 	if k: r.c.key = k.key
-
-	r.c.verify = False
+	r.c.verify_https = False
 	r.highlight = highlight
 	if highlight:
 		r.AVAILABLE_STYLES = set(STYLE_MAP.keys())
