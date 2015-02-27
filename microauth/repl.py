@@ -34,6 +34,10 @@ class repl(cmd.Cmd):
 		else:
 			print "Usage: setkey <key>"
 
+	def do_use(self,key):
+		"Alias of setkey."
+		self.do_setkey(key)
+
 	def do_getkey(self,line):
 		print self.c.key
 

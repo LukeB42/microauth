@@ -183,6 +183,8 @@ class UserLogin(restful.Resource):
 		key = auth()
 		user = get(key, User, ('username', username))
 
+		if not user: abort(404)
+
 		parser = reqparse.RequestParser()
 		parser.add_argument("password", type=str, help="Password of account", default=None)
 		args = parser.parse_args()
