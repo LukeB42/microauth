@@ -16,6 +16,9 @@ class Client(object):
 		self.username = None
 		self.timeout = timeout
 
+		if not self.base.endswith('/'):
+			self.base += '/'
+
 	def _send_request(self, url, type='GET', body={}, headers={}):
 		headers['Authorization'] =  "Basic %s" % self.key
 		url = self.base+url
@@ -58,13 +61,13 @@ class Client(object):
 	def privs(self, type='GET', body={}, headers={}):
 		return self._send_request("privs", type, body, headers)
 
-	def remote_user(self):
+	def user(self):
 		if not self.username: raise Exception("No username attribute defined.")
-		return self._send_request('/users/' + self.username)[0]
+		return self._send_request('users/' + self.username)[0]
 
 	def can(self, priv):
 		if self.username:
-			(resp, status) =  self._send_request('/users/%s?can=%s' % (self.username, priv))
+			(resp, status) =  self._send_request('users/%s?can=%s' % (self.username, priv))
 			if status == 200: return resp
 		raise Exception("No username attribute defined.")
 
