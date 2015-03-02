@@ -32,7 +32,7 @@ class Client(object):
 		except: return {}, resp.status_code
 
 	def get(self, url, body={}, headers={}):
-		return self._send_request(url, body, headers)
+		return self._send_request(url, body=body, headers=headers)
 
 	def put(self, url, body={}, headers={}):
 		return self._send_request(url, type='PUT', body=body, headers=headers)
@@ -62,11 +62,11 @@ class Client(object):
 		if not self.username: raise Exception("No username attribute defined.")
 		return self._send_request('/users/' + self.username)[0]
 
-	def can(priv):
+	def can(self, priv):
 		if self.username:
 			(resp, status) =  self._send_request('/users/%s?can=%s' % (self.username, priv))
 			if status == 200: return resp
 		raise Exception("No username attribute defined.")
 
 	def __repr__(self):
-		return "<API Client for $s>" % self.base
+		return "<API Client for %s>" % self.base
