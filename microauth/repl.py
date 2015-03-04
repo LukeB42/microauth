@@ -89,6 +89,12 @@ class repl(cmd.Cmd):
 			print highlight(json.dumps(response[0],indent=4), JsonLexer(), Terminal256Formatter(style=self.style))
 		else: self.c.p(response)
 
+def reqwrap(func):
+	def wrapper(*args, **kwargs):
+		try: return func(*args, **kwargs)
+		except: return ({'error':'Connection refused.'}, 000)
+	return wrapper
+
 if __name__ == "__main__":
 	r = repl()
 	r.c = Client('','https://localhost:7789/v1/')
@@ -104,4 +110,5 @@ if __name__ == "__main__":
 		else:
 			for s in r.AVAILABLE_STYLES: break
 			r.style = s
+	r.c._send_request = reqwrap(r.c._send_request)
 	r.cmdloop()

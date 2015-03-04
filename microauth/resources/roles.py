@@ -329,3 +329,18 @@ class RevokePrivs(restful.Resource):
 		db.session.add(role)
 		db.session.commit()
 		return acls
+
+class RoleResourcePrivs(restful.Resource):
+	def get(self, name):
+		key = auth()
+		role = get(key, Role, ('name', name))
+		if not role: abort(404, message="Unrecognized role.")
+		return role.jsonify(with_privs=True)['privileges']
+
+
+class RoleResourceUsers(restful.Resource):
+	def get(self, name):
+		key = auth()
+		role = get(key, Role, ('name', name))
+		if not role: abort(404, message="Unrecognized role.")
+		return role.jsonify(with_users=True)['users']
