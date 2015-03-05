@@ -49,7 +49,6 @@ class PrivCollection(restful.Resource):
 
 			priv = get(key, Priv, ('name',name))
 			if priv: continue
-			print "This priv doesn't exist:", name
 
 			priv = Priv(name=name)
 			if not key.systemwide or not args.systemwide:
