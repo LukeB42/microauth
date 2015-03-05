@@ -47,8 +47,9 @@ class PrivCollection(restful.Resource):
 		for name in names:
 			if not re.match("^[\w\-\s,]+$",name): abort(422, message=msg)
 
-			priv = get(key, Priv, ('name',args.name))
+			priv = get(key, Priv, ('name',name))
 			if priv: continue
+			print "This priv doesn't exist:", name
 
 			priv = Priv(name=name)
 			if not key.systemwide or not args.systemwide:
@@ -56,6 +57,7 @@ class PrivCollection(restful.Resource):
 			privs.append(priv)
 			db.session.add(priv)
 
+		if not privs: return [],304
 		db.session.commit()
 		return [priv.jsonify() for priv in privs],201
 
