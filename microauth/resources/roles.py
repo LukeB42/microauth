@@ -59,6 +59,7 @@ class RoleCollection(restful.Resource):
 		key = auth()
 		if not key.systemwide: abort(403)
 
+		# TODO: Use a comma-separated list of names to modify multiple roles in one request.
 		parser = reqparse.RequestParser()
 		parser.add_argument("name", type=str, help="Name of roles.", required=True)
 		parser.add_argument("systemwide", type=bool, help="Systemwide flag", required=True, default=None)
