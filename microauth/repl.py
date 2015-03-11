@@ -1,8 +1,10 @@
 #!/usr/bin/env python
-from microauth.resources.models import APIKey
-from microauth.client import Client
-import json
 import cmd
+import json
+import optparse
+from microauth.client import Client
+from microauth.resources.models import APIKey
+
 try:
 	from pygments import highlight
 	from pygments.lexers import JsonLexer
@@ -96,8 +98,12 @@ def reqwrap(func):
 	return wrapper
 
 if __name__ == "__main__":
+	parser = optparse.OptionParser(prog="python -m microauth.run")
+	parser.add_option("--host", dest="host", action="store", default='localhost:7789/v1/')
+	(options,args) = parser.parse_args()
+
 	r = repl()
-	r.c = Client('','https://localhost:7789/v1/')
+	r.c = Client('','https://%s' % options.host)
 
 	r.c.key = ""
 	k = APIKey.query.first()

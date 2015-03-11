@@ -13,8 +13,12 @@ class Client(object):
 		pp = pprint.PrettyPrinter(indent=4)
 		self.p = pp.pprint
 		self.verify_https = verify
-		self.username = None
 		self.timeout = timeout
+
+		# Defining a username manually on your client objects will
+		# permit you to use the .can() shortcut for determining
+		# the username's access rights.
+		self.username = None
 
 		if not self.base.endswith('/'):
 			self.base += '/'

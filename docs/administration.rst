@@ -5,10 +5,9 @@ Microauth works by parenting objects (*Users*, *Roles* and *Privileges*) to API 
 Objects that are not parented to an API key are considered global to the system.
 Keys can be switched into systemwide mode, giving them access to these objects.
 
-A simple REST interface is presented at **/keys**, **/users**, **/roles** and **/privs**, using PUT to create, POST to modify,
-DELETE to.. and GET to verify/examine. 
-
 This documentation is only concerned with the API revealed on the **/v1** prefix. (**/v1/users** etc)
+
+A simple REST interface is presented at **/keys**, **/users**, **/roles** and **/privs**. 
 
 Getting started
 -----------------
@@ -22,7 +21,7 @@ Reviewing your ./microauth/config.py it should look something like this...
     MASTER_KEY_NAME = "Master"
     PERMIT_NEW = True # Permit strangers to generate API keys for themselves.
     BCRYPT_ROUNDS = 12
-    GZIP_HERE = True  # Apply compression in this application (instead of in nginx or something)
+    GZIP_HERE = True  # Apply compression in this application (instead of at something like nginx)
 
 .. warning::
 
@@ -31,28 +30,43 @@ Reviewing your ./microauth/config.py it should look something like this...
 		Redefining <strong>MASTER_KEY_NAME</strong> during operation can change which key is treated as the master.<br />
 		Please secure the file permissions on your <em>config.py</em>. (<em>chmod 600 config.py</em> if in doubt)
 
+One last setting to make sure you have in place is the location of a database. This must be set as an environmental variable that Microauth will be able to read.
+On UNIX-like systems this can be done with *export MICROAUTH_DATABASE="sqlite:////home/you/microauth/db"* for example.
+The "sqlite" part there can be any of "**mysql**", "**sqlite**" or "**postgres**". The connection `details`_ will differ respectively.
+The reason for doing this is so that databases aren't overwritten when transferring the src from development to production and so that authentication databases are never considered part of the Microauth (or your application's) source tree.
+
+.. _details: http://docs.sqlalchemy.org/en/rel_0_9/core/engines.html
+
 When you start Microauth for the first time the database will be populated with a schema and the first API Key will be introduced,
 with the name defined in config.py as **MASTER_KEY_NAME**. Eg:
 
 .. raw:: html
 
     <blockquote>
-    ./run.py --key key --cert cert<br />
+    python -m microauth.run --key ~/microauth/key --cert ~/microauth/cert<br />
     <span class="apikey">$2a$12$P6py8egFp35kyCsA10DRtuniD8WwRQOGBv27ZLRqKbDUkvBR7J8XW</span><br />
      * Running on http://0.0.0.0:7789/ (Press CTRL+C to quit)<br />
-     * Restarting with stat<br />
-    </blockquote><br />
+    </blockquote>
+
+
+.. raw:: html
+
+	<div class="admonition note">
+	<p class="first admonition-title">Note</p>
+    Microauth only works as an <strong>HTTPS</strong> server. A key and a certificate can be generated with:<br />
+	<em>$ openssl genrsa 1024 > key<br />
+	$ openssl req -new -x509 -nodes -sha1 -days 365 -key key > cert</em>
+	</div>
 
 This key can be used to determine whether new keys can be created or to simply review the system. For instance, using `httpie`_:
 
 .. _httpie: https://github.com/jakubroztocil/httpie
 
-
 .. http:get:: /v1/keys
 
 	.. code-block:: javascript
 
-		$ http --verify=no localhost:7789/v1/keys "Authorization: Basic \$2a\$12\$R0yq8EOnxgWTuIuEPwwbsusQ8qgLTYSpUhpuhJjbw0mDHJZN9ERZm"
+		$ http --verify=no https://localhost:7789/v1/keys "Authorization: Basic \$2a\$12\$R0yq8EOnxgWTuIuEPwwbsusQ8qgLTYSpUhpuhJjbw0mDHJZN9ERZm"
 		HTTP/1.0 200 OK
 		Content-Encoding: gzip
 		Content-Length: 170
