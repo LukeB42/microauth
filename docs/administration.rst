@@ -15,7 +15,6 @@ Reviewing your ./microauth/config.py it should look something like this...
 
 .. code-block:: python
 
-    SQLALCHEMY_DATABASE_URI = ("sqlite:///microauth")
     SYSTEMWIDE = True
     MASTER_KEY = None # String to use as the master API key.
     MASTER_KEY_NAME = "Master"
