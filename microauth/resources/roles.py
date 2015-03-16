@@ -1,3 +1,7 @@
+"""
+This file defines the interface to roles.
+TODO: modifying a collection of roles in one call.
+"""
 import re
 from microauth import db
 from flask.ext import restful

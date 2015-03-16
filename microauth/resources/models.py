@@ -1,3 +1,7 @@
+"""
+This file models data for storage in a database,
+You may want to check the .jsonify() methods too.
+"""
 # "build your application with a local key, and when it's ready, enable system-wide"
 
 import os

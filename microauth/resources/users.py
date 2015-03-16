@@ -1,3 +1,9 @@
+"""
+This file presents the interfaces to users functions,
+mainly listing them, verifying their rights and authenticating them.
+
+"""
+
 import re
 import datetime
 import cStringIO

@@ -1,3 +1,6 @@
+"""
+This file determines how the /privs endpoint works.
+"""
 import re
 from microauth import db
 from sqlalchemy import and_

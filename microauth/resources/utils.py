@@ -1,3 +1,7 @@
+"""
+This file defines a nifty utility for querying the database,
+gzipping requests thanks to a snippet on pocoo.org and unique ID generation.
+"""
 import gzip
 import time
 import base64

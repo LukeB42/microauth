@@ -1,3 +1,7 @@
+"""
+This module determines the behavior of API Keys within the system.
+You may also want to check the definition of API keys in models.py.
+"""
 import re
 from flask import request
 from flask.ext import restful
