@@ -21,6 +21,7 @@ from microauth.resources import api_key
 from microauth.resources import users
 from microauth.resources import roles
 from microauth.resources import privs
+from microauth.resources import events
 from microauth.resources import models
 
 
@@ -58,3 +59,6 @@ api.add_resource(roles.RevokePrivs,        "/roles/<string:name>/revoke")
 
 api.add_resource(privs.PrivCollection,     "/privs")
 api.add_resource(privs.PrivResource,       "/privs/<string:name>")
+
+api.add_resource(events.EventCollection,     "/events")
+api.add_resource(events.EventResource,       "/events/<string:username>")

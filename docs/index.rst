@@ -17,6 +17,7 @@ Contents:
    users
    privs
    roles
+   events
    client
 
 .. Some comment

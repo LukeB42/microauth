@@ -22,9 +22,10 @@ class APIKey(db.Model):
 	created    = db.Column(db.DateTime(), default=db.func.now())
 	systemwide = db.Column(db.Boolean())
 	global_del = db.Column(db.Boolean())
-	users = db.relationship("User", backref="key")
-	privs = db.relationship("Priv", backref="key")
-	roles = db.relationship("Role", backref="key")
+	users  = db.relationship("User", backref="key")
+	privs  = db.relationship("Priv", backref="key")
+	roles  = db.relationship("Role", backref="key")
+	events = db.relationship("Event", backref="key")
 
 	def generate_key_str(self):
 		return bcrypt.hashpw(os.urandom(20),
@@ -153,6 +154,7 @@ class User(db.Model):
 	key_id      = db.Column(db.Integer(), db.ForeignKey("api_keys.id"))
 	created     = db.Column(db.DateTime(), default=db.func.now())
 	last_login  = db.Column(db.DateTime())
+	events      = db.relationship("Event", backref="user")
 
 	def __init__(self, username, email, name, password, extra={}, keyfile=None):
 		self.username = username
@@ -218,3 +220,27 @@ class User(db.Model):
 
 	def __repr__(self):
 		return "<User %s>" % self.username
+
+class Event(db.Model):
+	__tablename__ = 'eventlog'
+	id       = db.Column(db.Integer(), primary_key=True)
+	uid      = db.Column(db.String(20), default=uid())
+	key_id   = db.Column(db.Integer(), db.ForeignKey("api_keys.id"))
+	user_id  = db.Column(db.Integer(), db.ForeignKey("users.id"))
+	created  = db.Column(db.DateTime(), default=db.func.now())
+	success  = db.Column(db.Boolean())
+
+	def jsonify(self):
+		return {
+			'username': self.user.username,
+			'time': self.created.strftime("%A, %d. %B %Y %I:%M%p"),
+			'success': self.success,
+			'key': self.key.name,
+			'id': self.uid,
+		}
+
+	def __repr__(self):
+		if all([self.key, self.user, self.created]) and self.success != None:
+			return '<Event "%s" -> %s (%s) on %s>' % \
+			(self.user.username, self.key.name, self.success, self.created.strftime("%A, %d. %B %Y %I:%M%p"))
+		return "<Event>"

@@ -2,6 +2,8 @@
 This file presents the interfaces to users functions,
 mainly listing them, verifying their rights and authenticating them.
 
+Note that whenever authentication is attempted that an Event is created
+and added to the database.
 """
 
 import re
@@ -179,8 +181,15 @@ class UserLogin(restful.Resource):
 
 		if user.verify_password(args.password):
 			user.last_login = datetime.datetime.now()
+			ev = Event(user=user, key=key, success=True)
+			print ev
+			db.session.add(ev)
+			print db.session.dirty
 			db.session.commit()
 			return True
+		ev = Event(user=user, key=key, success=False)
+		db.session.add(ev)
+		db.session.commit()
 		return False
 
 
@@ -198,8 +207,14 @@ class UserLogin(restful.Resource):
 		if args.password:
 			if user.verify_password(args.password):
 				user.last_login = datetime.datetime.now()
+
+				ev = Event(user=user, key=key, success=True)
+				db.session.add(ev)
 				db.session.commit()
 				return True
+			ev = Event(user=user, key=key, success=False)
+			db.session.add(ev)
+			db.session.commit()
 			return False
 
 		#
@@ -217,9 +232,14 @@ class UserLogin(restful.Resource):
 			if user.keyfile == tmp_buffer.read():
 				tmp_buffer.close()
 				user.last_login = datetime.datetime.now()
+				ev = Event(user=user, key=key, success=True)
+				db.session.add(ev)
 				db.session.commit()
 				return True
 			tmp_buffer.close()
+			ev = Event(user=user, key=key, success=False)
+			db.session.add(ev)
+			db.session.commit()
 			return False
 
 		return {},400
