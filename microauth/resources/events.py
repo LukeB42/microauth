@@ -58,8 +58,22 @@ class EventResource(restful.Resource):
 		key = auth()
 		user = get(key, User, ('username', username))
 
-		# TODO: Paginate
-		if user is None:
-			return {}, 404
-		else:
-			return [event.jsonify() for event in user.events]
+
+		parser = reqparse.RequestParser()
+		parser.add_argument("page", type=int, help="Current page number.")
+		parser.add_argument("per_page", type=int, help="Items per page.")
+		args = parser.parse_args()
+
+		if not user: return {}, 404
+
+		res = [event.jsonify() for event in user.events]
+		res.reverse()
+
+		if args.page:
+			if args.per_page:
+				p   = args.page
+				p   = p-1
+				pp  = args.per_page
+				return(res[p*pp:(p*pp)+pp])
+
+		return(res[-50:])
