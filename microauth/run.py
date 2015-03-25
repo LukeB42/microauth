@@ -75,6 +75,14 @@ if __name__ == "__main__":
 		print "$ openssl req -new -x509 -nodes -sha1 -days 365 -key key > cert"
 		raise SystemExit
 
+	if '~' in options.cert: options.cert = os.path.expanduser(options.cert)
+	if '~' in options.key:  options.key  = os.path.expanduser(options.key)
+
+	if not os.path.isfile(options.cert):
+		sys.exit("Certificate not found at %s" % options.cert)
+
+	if not os.path.isfile(options.key):
+		sys.exit("Key not found at %s" % options.key)
 
 	if (pwd.getpwuid(os.getuid())[2] == 0):
 		print "Running as root is not permitted.\nExecute this as a different user."
