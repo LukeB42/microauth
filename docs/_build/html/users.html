@@ -1,0 +1,251 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Users &mdash; Microauth 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <link rel="top" title="Microauth 0.1 documentation" href="index.html" />
+    <link rel="next" title="Privs" href="privs.html" />
+    <link rel="prev" title="Keys" href="keys.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="http-routingtable.html" title="HTTP Routing Table"
+             >routing table</a> |</li>
+        <li class="right" >
+          <a href="privs.html" title="Privs"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="keys.html" title="Keys"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Microauth</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="users">
+<h1>Users<a class="headerlink" href="#users" title="Permalink to this headline">¶</a></h1>
+<p>Microauth presents simple facilities for authenticating users, leaving it up to the application developer how sessions are managed.</p>
+<div class="section" id="creating-users">
+<h2>Creating users<a class="headerlink" href="#creating-users" title="Permalink to this headline">¶</a></h2>
+<dl class="put">
+<dt id="put--v1-user">
+<code class="descname">PUT </code><code class="descname">/v1/user</code><a class="headerlink" href="#put--v1-user" title="Permalink to this definition">¶</a></dt>
+<dd><p>To create a new user simply define the following parameters in the request body:</p>
+<ul class="simple">
+<li><strong>username</strong></li>
+<li><strong>name</strong></li>
+<li><strong>email</strong></li>
+<li><strong>password</strong></li>
+<li>An optional parameter <strong>systemwide</strong> can create global users directly.</li>
+</ul>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">put</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/users Authorization:&quot;Basic \$2a\$12\$xVOCuxixOd9ly/xiUlWqg.7mIa05Dk/bcT4DykvePiVLDjjEy2zbu&quot; username=&quot;SomeUser&quot; name=&quot;John Doe&quot; email=&quot;SomeUser@somehost.tld&quot; password=&quot;SomePass&quot;</span>
+<span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">201</span> <span class="nx">CREATED</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Encoding</span><span class="o">:</span> <span class="nx">gzip</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Length</span><span class="o">:</span> <span class="mi">148</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span> <span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<span class="nb">Date</span><span class="o">:</span> <span class="nx">Thu</span><span class="p">,</span> <span class="mi">19</span> <span class="nx">Feb</span> <span class="mi">2015</span> <span class="mi">12</span><span class="o">:</span><span class="mi">36</span><span class="o">:</span><span class="mi">44</span> <span class="nx">GMT</span>
+<span class="nx">Server</span><span class="o">:</span> <span class="nx">Werkzeug</span><span class="o">/</span><span class="mf">0.10</span><span class="p">.</span><span class="mi">1</span> <span class="nx">Python</span><span class="o">/</span><span class="mf">2.7</span><span class="p">.</span><span class="mi">3</span>
+<span class="nx">Vary</span><span class="o">:</span> <span class="nx">Accept</span><span class="o">-</span><span class="nx">Encoding</span>
+
+<span class="p">{</span>
+    <span class="s2">&quot;created&quot;</span><span class="o">:</span> <span class="s2">&quot;Thursday, 19. February 2015 12:36PM&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;email&quot;</span><span class="o">:</span> <span class="s2">&quot;SomeUser@somehost.tld&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;John Doe&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;systemwide&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;username&quot;</span><span class="o">:</span> <span class="s2">&quot;SomeUser&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h2>
+<dl class="get">
+<dt id="get--v1-user-(username)-login">
+<code class="descname">GET </code><code class="descname">/v1/user/</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><code class="descname">/login</code><a class="headerlink" href="#get--v1-user-(username)-login" title="Permalink to this definition">¶</a></dt>
+<dd>Authenticating is a simple as making a get request to <strong>/v1/users/</strong><em>username</em><strong>/login</strong>?password=<em>password</em><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/users/SomeUser/login?password=SomePass Authorization:&quot;Basic \$2a\$12\$xVOCuxixOd9ly/xiUlWqg.7mIa05Dk/bcT4DykvePiVLDjjEy2zbu&quot;</span>
+<span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">200</span> <span class="nx">OK</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Length</span><span class="o">:</span> <span class="mi">23</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span> <span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<span class="nb">Date</span><span class="o">:</span> <span class="nx">Thu</span><span class="p">,</span> <span class="mi">19</span> <span class="nx">Feb</span> <span class="mi">2015</span> <span class="mi">12</span><span class="o">:</span><span class="mi">43</span><span class="o">:</span><span class="mi">07</span> <span class="nx">GMT</span>
+<span class="nx">Server</span><span class="o">:</span> <span class="nx">Werkzeug</span><span class="o">/</span><span class="mf">0.10</span><span class="p">.</span><span class="mi">1</span> <span class="nx">Python</span><span class="o">/</span><span class="mf">2.7</span><span class="p">.</span><span class="mi">3</span>
+
+<span class="kc">true</span>
+</pre></div>
+</div>
+An incorrect password would result in <span class="apikey">false</span>.<br /><br />
+
+
+To avoid sending passwords as a URL parameter it is possible to authenticate with a <strong>POST</strong> request to the <strong>/users/</strong>username<strong>/login</strong> endpoint with a <strong>password</strong> field in the request body.<br />
+It's not RESTful in that you're not updating a resource but it keeps passwords out of terminal memory.</dd></dl>
+
+<div class="section" id="key-files">
+<h3>Key files<a class="headerlink" href="#key-files" title="Permalink to this headline">¶</a></h3>
+<p>Microauth can also verify authentication through file uploads. This may be useful if you would like to validate access to resources through
+peripherals like card readers or unique strings stegenographically embedded in cat macros.</p>
+To set a key file simply make a <strong>POST</strong> request to <strong>/v1/users/</strong><em>username</em><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">curl</span> <span class="o">-</span><span class="nx">k</span> <span class="o">--</span><span class="nx">header</span> <span class="s2">&quot;Authorization:Basic \$2a\$12\$xVOCuxixOd9ly/xiUlWqg.7mIa05Dk/bcT4DykvePiVLDjjEy2zbu&quot;</span> <span class="o">-</span><span class="nx">i</span> <span class="o">-</span><span class="nx">F</span> <span class="s2">&quot;keyfile=@./keyfile&quot;</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/users/SomeUser</span>
+<span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span> <span class="mi">100</span> <span class="nx">Continue</span>
+
+<span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">200</span> <span class="nx">OK</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span> <span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Length</span><span class="o">:</span> <span class="mi">36</span>
+<span class="nx">Server</span><span class="o">:</span> <span class="nx">Werkzeug</span><span class="o">/</span><span class="mf">0.10</span><span class="p">.</span><span class="mi">1</span> <span class="nx">Python</span><span class="o">/</span><span class="mf">2.7</span><span class="p">.</span><span class="mi">3</span>
+<span class="nb">Date</span><span class="o">:</span> <span class="nx">Thu</span><span class="p">,</span> <span class="mi">19</span> <span class="nx">Feb</span> <span class="mi">2015</span> <span class="mi">13</span><span class="o">:</span><span class="mi">01</span><span class="o">:</span><span class="mi">14</span> <span class="nx">GMT</span>
+
+<span class="p">{</span>
+    <span class="s2">&quot;message&quot;</span><span class="o">:</span> <span class="s2">&quot;User modified.&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+and to verify, make the same request to <strong>/v1/users/</strong><em>username</em><strong>/login</strong>:<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">curl</span> <span class="o">-</span><span class="nx">k</span> <span class="o">--</span><span class="nx">header</span> <span class="s2">&quot;Authorization:Basic \$2a\$12\$xVOCuxixOd9ly/xiUlWqg.7mIa05Dk/bcT4DykvePiVLDjjEy2zbu&quot;</span> <span class="o">-</span><span class="nx">i</span> <span class="o">-</span><span class="nx">F</span> <span class="s2">&quot;keyfile=@./keyfile&quot;</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/users/SomeUser/login</span>
+<span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span> <span class="mi">100</span> <span class="nx">Continue</span>
+
+<span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">200</span> <span class="nx">OK</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span> <span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Length</span><span class="o">:</span> <span class="mi">5</span>
+<span class="nx">Server</span><span class="o">:</span> <span class="nx">Werkzeug</span><span class="o">/</span><span class="mf">0.10</span><span class="p">.</span><span class="mi">1</span> <span class="nx">Python</span><span class="o">/</span><span class="mf">2.7</span><span class="p">.</span><span class="mi">3</span>
+<span class="nb">Date</span><span class="o">:</span> <span class="nx">Thu</span><span class="p">,</span> <span class="mi">19</span> <span class="nx">Feb</span> <span class="mi">2015</span> <span class="mi">13</span><span class="o">:</span><span class="mi">03</span><span class="o">:</span><span class="mi">33</span> <span class="nx">GMT</span>
+
+<span class="kc">true</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="authorisation">
+<h2>Authorisation<a class="headerlink" href="#authorisation" title="Permalink to this headline">¶</a></h2>
+<dl class="get">
+<dt id="get--v1-user-(username)?can=(privilege)">
+<code class="descname">GET </code><code class="descname">/v1/user/</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><code class="descname">?can=</code><span class="sig-paren">(</span><em>privilege</em><span class="sig-paren">)</span><a class="headerlink" href="#get--v1-user-(username)?can=(privilege)" title="Permalink to this definition">¶</a></dt>
+<dd><p>To determine whether a user has a privilege you can issue this simple request:</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/users/SomeUser?can=Write Authorization:&quot;Basic \$2a\$12\$xVOCuxixOd9ly/xiUlWqg.7mIa05Dk/bcT4DykvePiVLDjjEy2zbu&quot;</span>
+<span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">200</span> <span class="nx">OK</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Length</span><span class="o">:</span> <span class="mi">5</span>
+<span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span> <span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<span class="nb">Date</span><span class="o">:</span> <span class="nx">Thu</span><span class="p">,</span> <span class="mi">19</span> <span class="nx">Feb</span> <span class="mi">2015</span> <span class="mi">15</span><span class="o">:</span><span class="mi">34</span><span class="o">:</span><span class="mi">23</span> <span class="nx">GMT</span>
+<span class="nx">Server</span><span class="o">:</span> <span class="nx">Werkzeug</span><span class="o">/</span><span class="mf">0.10</span><span class="p">.</span><span class="mi">1</span> <span class="nx">Python</span><span class="o">/</span><span class="mf">2.7</span><span class="p">.</span><span class="mi">3</span>
+
+<span class="kc">true</span>
+</pre></div>
+</div>
+<span class="apikey">null</span> would mean the privilege wasn't available through any associated roles.</dd></dl>
+
+</div>
+<div class="section" id="deleting">
+<h2>Deleting<a class="headerlink" href="#deleting" title="Permalink to this headline">¶</a></h2>
+<dl class="delete">
+<dt id="delete--v1-users-(username)">
+<code class="descname">DELETE </code><code class="descname">/v1/users/</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#delete--v1-users-(username)" title="Permalink to this definition">¶</a></dt>
+<dd>Deleting users is as simple as sending a <strong>DELETE</strong> request to the <strong>/users/</strong><em>username</em> endpoint.</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Users</a><ul>
+<li><a class="reference internal" href="#creating-users">Creating users</a></li>
+<li><a class="reference internal" href="#authentication">Authentication</a><ul>
+<li><a class="reference internal" href="#key-files">Key files</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#authorisation">Authorisation</a></li>
+<li><a class="reference internal" href="#deleting">Deleting</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="keys.html"
+                        title="previous chapter">Keys</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="privs.html"
+                        title="next chapter">Privs</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/users.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="http-routingtable.html" title="HTTP Routing Table"
+             >routing table</a> |</li>
+        <li class="right" >
+          <a href="privs.html" title="Privs"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="keys.html" title="Keys"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Microauth</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015 redflagalert.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>

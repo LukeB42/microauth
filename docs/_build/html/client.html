@@ -1,0 +1,170 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Client &mdash; Microauth 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/sidebar.js"></script>
+    <link rel="top" title="Microauth 0.1 documentation" href="index.html" />
+    <link rel="prev" title="Events" href="events.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="http-routingtable.html" title="HTTP Routing Table"
+             >routing table</a> |</li>
+        <li class="right" >
+          <a href="events.html" title="Events"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Microauth</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="client">
+<h1>Client<a class="headerlink" href="#client" title="Permalink to this headline">¶</a></h1>
+<p>A simple REPL program is included as part of the Microauth installation and can help demonstrate how to use the client library.
+As of writing, the client library is only 80 lines in length, so you may benefit from giving it a quick review, especially during application development.
+This section will demonstrate things like signing in, checking privileges and changing passwords, first from the interactive interpreter.</p>
+<p>On startup it will read the environment for the location of your database and default to using the master key.</p>
+    <blockquote>python -m microauth.repl<br />
+    &gt; getkey<br />
+<span class="apikey">$2a$12$P6py8egFp35kyCsA10DRtuniD8WwRQOGBv27ZLRqKbDUkvBR7J8XW</span><br />
+    &gt;</blockquote><br />
+    An optional <em>--host</em> argument is available in the form of <em>hostname</em>:<em>port</em>/<em>v1</em>/<p>The key can be changed with <strong>setkey</strong> or <strong>use</strong>, which is an alias for setkey. Especially useful for interacting with remote Microauth instances.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="o">&gt;</span> <span class="nx">get</span> <span class="nx">keys</span><span class="o">/</span><span class="nx">Wiki</span>
+<span class="mi">200</span>
+<span class="p">{</span>
+    <span class="s2">&quot;systemwide&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+    <span class="s2">&quot;apikey&quot;</span><span class="o">:</span> <span class="s2">&quot;$2a$12$pa4PfOB.fYzdhjinNMDtaOTZgqcMXHI0OUQcpwKM5VDf13hKX.3vC&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Wiki&quot;</span><span class="p">,</span>
+<span class="p">[</span> <span class="p">...</span> <span class="p">]</span>
+
+<span class="o">&gt;</span> <span class="nx">use</span> <span class="nx">$2a$12$pa4PfOB</span><span class="p">.</span><span class="nx">fYzdhjinNMDtaOTZgqcMXHI0OUQcpwKM5VDf13hKX</span><span class="p">.</span><span class="mi">3</span><span class="nx">vC</span>
+<span class="nx">Changed</span> <span class="nx">active</span> <span class="nx">API</span> <span class="nx">key</span> <span class="nx">to</span> <span class="s2">&quot;$2a$12$pa4PfOB.fYzdhjinNMDtaOTZgqcMXHI0OUQcpwKM5VDf13hKX.3vC&quot;</span>
+<span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>From here, anything you would normally do with the REST api can be done with the commands in the interpreter.</p>
+<p>For instance let&#8217;s modify the <em>Writers</em> role for a wiki, by appending a handful of privileges to this group.</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="o">&gt;</span> <span class="nx">get</span> <span class="nx">roles</span><span class="o">/</span><span class="nx">Writers</span>
+<span class="mi">200</span>
+<span class="p">{</span>
+    <span class="s2">&quot;systemwide&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="s2">&quot;name&quot;</span><span class="o">:</span> <span class="s2">&quot;Writers&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;parent_key&quot;</span><span class="o">:</span> <span class="s2">&quot;Wiki&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;created&quot;</span><span class="o">:</span> <span class="s2">&quot;Tuesday, 24. February 2015 11:13AM&quot;</span><span class="p">,</span>
+<span class="s2">&quot;privileges&quot;</span><span class="o">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;users&quot;</span><span class="o">:</span> <span class="p">[]</span>
+<span class="p">}</span>
+
+<span class="o">&gt;</span> <span class="nx">post</span> <span class="nx">roles</span><span class="o">/</span><span class="nx">Writers</span> <span class="nx">allow</span><span class="o">=</span><span class="nx">read</span><span class="p">,</span><span class="nx">write</span><span class="p">,</span><span class="k">delete</span><span class="p">,</span><span class="nx">pagegroup</span>
+<span class="mi">200</span>
+<span class="p">{</span>
+    <span class="s2">&quot;allow&quot;</span><span class="o">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+        <span class="s2">&quot;read&quot;</span><span class="o">:</span> <span class="kc">true</span>
+                <span class="p">},</span>
+        <span class="p">{</span>
+        <span class="s2">&quot;write&quot;</span><span class="o">:</span> <span class="kc">true</span>
+                <span class="p">},</span>
+        <span class="p">{</span>
+        <span class="s2">&quot;delete&quot;</span><span class="o">:</span> <span class="kc">true</span>
+                <span class="p">},</span>
+        <span class="p">{</span>
+                <span class="s2">&quot;pagegroup&quot;</span><span class="o">:</span> <span class="kc">true</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+
+<span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>Notice the format of the <strong>post</strong> command. The REPL currently doesn&#8217;t support arguments with spaces in them. Fortunately, Microauth recognises comma-separated lists.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="events.html"
+                        title="previous chapter">Events</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/client.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="http-routingtable.html" title="HTTP Routing Table"
+             >routing table</a> |</li>
+        <li class="right" >
+          <a href="events.html" title="Events"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">Microauth</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2015 redflagalert.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+    </div>
+  </body>
+</html>
