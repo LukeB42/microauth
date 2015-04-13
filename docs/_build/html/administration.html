@@ -1,10 +1,7 @@
 
 
-<<<<<<< Updated upstream
-=======
 
 
->>>>>>> Stashed changes
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -15,21 +12,13 @@
     
     <title>Administration &mdash; Microauth 0.1 documentation</title>
     
-<<<<<<< Updated upstream
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-=======
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
->>>>>>> Stashed changes
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/style.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-<<<<<<< Updated upstream
-        URL_ROOT:    './',
-=======
         URL_ROOT:    '',
->>>>>>> Stashed changes
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -44,13 +33,8 @@
     <link rel="next" title="Keys" href="keys.html" />
     <link rel="prev" title="Microauth documentation" href="index.html" /> 
   </head>
-<<<<<<< Updated upstream
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-=======
   <body>
     <div class="related">
->>>>>>> Stashed changes
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -65,22 +49,14 @@
         <li class="right" >
           <a href="index.html" title="Microauth documentation"
              accesskey="P">previous</a> |</li>
-<<<<<<< Updated upstream
-        <li class="nav-item nav-item-0"><a href="index.html">Microauth</a> &raquo;</li> 
-=======
         <li><a href="index.html">Microauth</a> &raquo;</li> 
->>>>>>> Stashed changes
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-<<<<<<< Updated upstream
-          <div class="body" role="main">
-=======
           <div class="body">
->>>>>>> Stashed changes
             
   <div class="section" id="administration">
 <h1>Administration<a class="headerlink" href="#administration" title="Permalink to this headline">¶</a></h1>
@@ -122,11 +98,7 @@ Microauth only works as an <strong>HTTPS</strong> server. A key and a certificat
     </div><p>This key can be used to determine whether new keys can be created or to simply review the system. For instance, using <a class="reference external" href="https://github.com/jakubroztocil/httpie">httpie</a>:</p>
 <dl class="get">
 <dt id="get--v1-keys">
-<<<<<<< Updated upstream
-<code class="descname">GET </code><code class="descname">/v1/keys</code><a class="headerlink" href="#get--v1-keys" title="Permalink to this definition">¶</a></dt>
-=======
 <tt class="descname">GET </tt><tt class="descname">/v1/keys</tt><a class="headerlink" href="#get--v1-keys" title="Permalink to this definition">¶</a></dt>
->>>>>>> Stashed changes
 <dd><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/keys &quot;Authorization: Basic \$2a\$12\$R0yq8EOnxgWTuIuEPwwbsusQ8qgLTYSpUhpuhJjbw0mDHJZN9ERZm&quot;</span>
 <span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">200</span> <span class="nx">OK</span>
 <span class="nx">Content</span><span class="o">-</span><span class="nx">Encoding</span><span class="o">:</span> <span class="nx">gzip</span>
@@ -170,11 +142,7 @@ Microauth only works as an <strong>HTTPS</strong> server. A key and a certificat
 <p>A new (ordinary) key can be obtained by making a <strong>PUT</strong> request specifying the name of your new program:</p>
 <dl class="put">
 <dt id="put--v1-keys">
-<<<<<<< Updated upstream
-<code class="descname">PUT </code><code class="descname">/v1/keys</code><a class="headerlink" href="#put--v1-keys" title="Permalink to this definition">¶</a></dt>
-=======
 <tt class="descname">PUT </tt><tt class="descname">/v1/keys</tt><a class="headerlink" href="#put--v1-keys" title="Permalink to this definition">¶</a></dt>
->>>>>>> Stashed changes
 <dd><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">put</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/keys name=NewApp</span>
 <span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">201</span> <span class="nx">CREATED</span>
 <span class="nx">Content</span><span class="o">-</span><span class="nx">Encoding</span><span class="o">:</span> <span class="nx">gzip</span>
@@ -197,11 +165,7 @@ Microauth only works as an <strong>HTTPS</strong> server. A key and a certificat
 <p>Notice that no API Key was required to grant this. This aspect can be determined by using the master key to toggle <strong>permit_new</strong>.</p>
 <dl class="post">
 <dt id="post--v1-keys">
-<<<<<<< Updated upstream
-<code class="descname">POST </code><code class="descname">/v1/keys</code><a class="headerlink" href="#post--v1-keys" title="Permalink to this definition">¶</a></dt>
-=======
 <tt class="descname">POST </tt><tt class="descname">/v1/keys</tt><a class="headerlink" href="#post--v1-keys" title="Permalink to this definition">¶</a></dt>
->>>>>>> Stashed changes
 <dd><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">post</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/keys Authorization:&quot;Basic \$2a\$12\$R0yq8EOnxgWTuIuEPwwbsusQ8qgLTYSpUhpuhJjbw0mDHJZN9ERZm&quot; permit_new=</span>
 <span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">200</span> <span class="nx">OK</span>
 <span class="nx">Content</span><span class="o">-</span><span class="nx">Encoding</span><span class="o">:</span> <span class="nx">gzip</span>
@@ -229,11 +193,7 @@ See the section on <a class="reference internal" href="keys.html"><em>Keys</em><
           </div>
         </div>
       </div>
-<<<<<<< Updated upstream
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-=======
       <div class="sphinxsidebar">
->>>>>>> Stashed changes
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -250,23 +210,12 @@ See the section on <a class="reference internal" href="keys.html"><em>Keys</em><
   <h4>Next topic</h4>
   <p class="topless"><a href="keys.html"
                         title="next chapter">Keys</a></p>
-<<<<<<< Updated upstream
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/administration.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-=======
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/administration.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
->>>>>>> Stashed changes
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -283,11 +232,7 @@ See the section on <a class="reference internal" href="keys.html"><em>Keys</em><
       </div>
       <div class="clearer"></div>
     </div>
-<<<<<<< Updated upstream
-    <div class="related" role="navigation" aria-label="related navigation">
-=======
     <div class="related">
->>>>>>> Stashed changes
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -302,21 +247,12 @@ See the section on <a class="reference internal" href="keys.html"><em>Keys</em><
         <li class="right" >
           <a href="index.html" title="Microauth documentation"
              >previous</a> |</li>
-<<<<<<< Updated upstream
-        <li class="nav-item nav-item-0"><a href="index.html">Microauth</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2015 redflagalert.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
-=======
         <li><a href="index.html">Microauth</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2015 redflagalert.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
->>>>>>> Stashed changes
     </div>
   </body>
 </html>

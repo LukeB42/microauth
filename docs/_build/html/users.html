@@ -1,10 +1,7 @@
 
 
-<<<<<<< Updated upstream
-=======
 
 
->>>>>>> Stashed changes
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -15,21 +12,13 @@
     
     <title>Users &mdash; Microauth 0.1 documentation</title>
     
-<<<<<<< Updated upstream
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
-=======
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
->>>>>>> Stashed changes
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/style.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
-<<<<<<< Updated upstream
-        URL_ROOT:    './',
-=======
         URL_ROOT:    '',
->>>>>>> Stashed changes
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -44,13 +33,8 @@
     <link rel="next" title="Privs" href="privs.html" />
     <link rel="prev" title="Keys" href="keys.html" /> 
   </head>
-<<<<<<< Updated upstream
-  <body role="document">
-    <div class="related" role="navigation" aria-label="related navigation">
-=======
   <body>
     <div class="related">
->>>>>>> Stashed changes
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -65,22 +49,14 @@
         <li class="right" >
           <a href="keys.html" title="Keys"
              accesskey="P">previous</a> |</li>
-<<<<<<< Updated upstream
-        <li class="nav-item nav-item-0"><a href="index.html">Microauth</a> &raquo;</li> 
-=======
         <li><a href="index.html">Microauth</a> &raquo;</li> 
->>>>>>> Stashed changes
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-<<<<<<< Updated upstream
-          <div class="body" role="main">
-=======
           <div class="body">
->>>>>>> Stashed changes
             
   <div class="section" id="users">
 <h1>Users<a class="headerlink" href="#users" title="Permalink to this headline">¶</a></h1>
@@ -89,11 +65,7 @@
 <h2>Creating users<a class="headerlink" href="#creating-users" title="Permalink to this headline">¶</a></h2>
 <dl class="put">
 <dt id="put--v1-user">
-<<<<<<< Updated upstream
-<code class="descname">PUT </code><code class="descname">/v1/user</code><a class="headerlink" href="#put--v1-user" title="Permalink to this definition">¶</a></dt>
-=======
 <tt class="descname">PUT </tt><tt class="descname">/v1/user</tt><a class="headerlink" href="#put--v1-user" title="Permalink to this definition">¶</a></dt>
->>>>>>> Stashed changes
 <dd><p>To create a new user simply define the following parameters in the request body:</p>
 <ul class="simple">
 <li><strong>username</strong></li>
@@ -127,11 +99,7 @@
 <h2>Authentication<a class="headerlink" href="#authentication" title="Permalink to this headline">¶</a></h2>
 <dl class="get">
 <dt id="get--v1-user-(username)-login">
-<<<<<<< Updated upstream
-<code class="descname">GET </code><code class="descname">/v1/user/</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><code class="descname">/login</code><a class="headerlink" href="#get--v1-user-(username)-login" title="Permalink to this definition">¶</a></dt>
-=======
 <tt class="descname">GET </tt><tt class="descname">/v1/user/</tt><big>(</big><em>username</em><big>)</big><tt class="descname">/login</tt><a class="headerlink" href="#get--v1-user-(username)-login" title="Permalink to this definition">¶</a></dt>
->>>>>>> Stashed changes
 <dd>Authenticating is a simple as making a get request to <strong>/v1/users/</strong><em>username</em><strong>/login</strong>?password=<em>password</em><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/users/SomeUser/login?password=SomePass Authorization:&quot;Basic \$2a\$12\$xVOCuxixOd9ly/xiUlWqg.7mIa05Dk/bcT4DykvePiVLDjjEy2zbu&quot;</span>
 <span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">200</span> <span class="nx">OK</span>
 <span class="nx">Content</span><span class="o">-</span><span class="nx">Length</span><span class="o">:</span> <span class="mi">23</span>
@@ -184,11 +152,7 @@ and to verify, make the same request to <strong>/v1/users/</strong><em>username<
 <h2>Authorisation<a class="headerlink" href="#authorisation" title="Permalink to this headline">¶</a></h2>
 <dl class="get">
 <dt id="get--v1-user-(username)?can=(privilege)">
-<<<<<<< Updated upstream
-<code class="descname">GET </code><code class="descname">/v1/user/</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><code class="descname">?can=</code><span class="sig-paren">(</span><em>privilege</em><span class="sig-paren">)</span><a class="headerlink" href="#get--v1-user-(username)?can=(privilege)" title="Permalink to this definition">¶</a></dt>
-=======
 <tt class="descname">GET </tt><tt class="descname">/v1/user/</tt><big>(</big><em>username</em><big>)</big><tt class="descname">?can=</tt><big>(</big><em>privilege</em><big>)</big><a class="headerlink" href="#get--v1-user-(username)?can=(privilege)" title="Permalink to this definition">¶</a></dt>
->>>>>>> Stashed changes
 <dd><p>To determine whether a user has a privilege you can issue this simple request:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/users/SomeUser?can=Write Authorization:&quot;Basic \$2a\$12\$xVOCuxixOd9ly/xiUlWqg.7mIa05Dk/bcT4DykvePiVLDjjEy2zbu&quot;</span>
 <span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">200</span> <span class="nx">OK</span>
@@ -207,11 +171,7 @@ and to verify, make the same request to <strong>/v1/users/</strong><em>username<
 <h2>Deleting<a class="headerlink" href="#deleting" title="Permalink to this headline">¶</a></h2>
 <dl class="delete">
 <dt id="delete--v1-users-(username)">
-<<<<<<< Updated upstream
-<code class="descname">DELETE </code><code class="descname">/v1/users/</code><span class="sig-paren">(</span><em>username</em><span class="sig-paren">)</span><a class="headerlink" href="#delete--v1-users-(username)" title="Permalink to this definition">¶</a></dt>
-=======
 <tt class="descname">DELETE </tt><tt class="descname">/v1/users/</tt><big>(</big><em>username</em><big>)</big><a class="headerlink" href="#delete--v1-users-(username)" title="Permalink to this definition">¶</a></dt>
->>>>>>> Stashed changes
 <dd>Deleting users is as simple as sending a <strong>DELETE</strong> request to the <strong>/users/</strong><em>username</em> endpoint.</dd></dl>
 
 </div>
@@ -221,11 +181,7 @@ and to verify, make the same request to <strong>/v1/users/</strong><em>username<
           </div>
         </div>
       </div>
-<<<<<<< Updated upstream
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-=======
       <div class="sphinxsidebar">
->>>>>>> Stashed changes
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -247,23 +203,12 @@ and to verify, make the same request to <strong>/v1/users/</strong><em>username<
   <h4>Next topic</h4>
   <p class="topless"><a href="privs.html"
                         title="next chapter">Privs</a></p>
-<<<<<<< Updated upstream
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/users.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-=======
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/users.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
->>>>>>> Stashed changes
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -280,11 +225,7 @@ and to verify, make the same request to <strong>/v1/users/</strong><em>username<
       </div>
       <div class="clearer"></div>
     </div>
-<<<<<<< Updated upstream
-    <div class="related" role="navigation" aria-label="related navigation">
-=======
     <div class="related">
->>>>>>> Stashed changes
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -299,21 +240,12 @@ and to verify, make the same request to <strong>/v1/users/</strong><em>username<
         <li class="right" >
           <a href="keys.html" title="Keys"
              >previous</a> |</li>
-<<<<<<< Updated upstream
-        <li class="nav-item nav-item-0"><a href="index.html">Microauth</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &copy; Copyright 2015 redflagalert.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
-=======
         <li><a href="index.html">Microauth</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2015 redflagalert.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
->>>>>>> Stashed changes
     </div>
   </body>
 </html>

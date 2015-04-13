@@ -54,18 +54,6 @@ For instance let's modify the *Writers* role for a wiki, by appending a handful 
 	{
 	    "allow": [
 	        {
-<<<<<<< Updated upstream
-    	        "read": true
-		        }, 
-	        {
-    	        "write": true
-		        }, 
-	        {
-    	        "delete": true
-		        }, 
-	        {
-	    	        "pagegroup": true
-=======
 	            "read": true
 	        }, 
 	        {
@@ -76,7 +64,6 @@ For instance let's modify the *Writers* role for a wiki, by appending a handful 
 	        }, 
 	        {
 	            "pagegroup": true
->>>>>>> Stashed changes
 	        }
 	    ]
 	}
@@ -84,8 +71,6 @@ For instance let's modify the *Writers* role for a wiki, by appending a handful 
 	> 
 
 Notice the format of the **post** command. The REPL currently doesn't support arguments with spaces in them. Fortunately, Microauth recognises comma-separated lists.
-<<<<<<< Updated upstream
-=======
 
 Best Practices
 -----------------
@@ -117,6 +102,10 @@ Check whether any roles your application expects to work with actually exist on 
 	            print "Error %i creating the initial privilege set on the authentication server." % status
 
 
-Try to think of a microservice as schroedingers shared library: It'll make functionality available to different (possibly virtual/containerized) machines,
-but the service might not always be available.
->>>>>>> Stashed changes
+Try to think of a microservice as schroedingers shared library, making functionality available to different (possibly virtual/containerized) machines,
+with the tradeoff that the service might not always be available.
+
+The Python client library for Microauth uses the excellent `Requests`_ library to communicate, with a configurable timeout. If you consult the docs for `Requests`_ and code with the timeout in mind you should
+be able to cope with the possible unavailability of your auth server.
+
+.. _Requests: http://docs.python-requests.org/en/latest/

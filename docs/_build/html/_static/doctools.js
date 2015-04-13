@@ -4,11 +4,7 @@
  *
  * Sphinx JavaScript utilities for all documentation.
  *
-<<<<<<< Updated upstream
- * :copyright: Copyright 2007-2015 by the Sphinx team, see AUTHORS.
-=======
  * :copyright: Copyright 2007-2011 by the Sphinx team, see AUTHORS.
->>>>>>> Stashed changes
  * :license: BSD, see LICENSE for details.
  *
  */
@@ -36,11 +32,7 @@ if (!window.console || !console.firebug) {
  */
 jQuery.urldecode = function(x) {
   return decodeURIComponent(x).replace(/\+/g, ' ');
-<<<<<<< Updated upstream
-};
-=======
 }
->>>>>>> Stashed changes
 
 /**
  * small helper function to urlencode strings
@@ -70,8 +62,6 @@ jQuery.getQueryParameters = function(s) {
 };
 
 /**
-<<<<<<< Updated upstream
-=======
  * small function to check if an array contains
  * a given item.
  */
@@ -84,7 +74,6 @@ jQuery.contains = function(arr, item) {
 };
 
 /**
->>>>>>> Stashed changes
  * highlight a given string on a jquery object by wrapping it in
  * span elements with the given class name.
  */
@@ -114,33 +103,6 @@ jQuery.fn.highlightText = function(text, className) {
   });
 };
 
-<<<<<<< Updated upstream
-/*
- * backward compatibility for jQuery.browser
- * This will be supported until firefox bug is fixed.
- */
-if (!jQuery.browser) {
-  jQuery.uaMatch = function(ua) {
-    ua = ua.toLowerCase();
-
-    var match = /(chrome)[ \/]([\w.]+)/.exec(ua) ||
-      /(webkit)[ \/]([\w.]+)/.exec(ua) ||
-      /(opera)(?:.*version|)[ \/]([\w.]+)/.exec(ua) ||
-      /(msie) ([\w.]+)/.exec(ua) ||
-      ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(ua) ||
-      [];
-
-    return {
-      browser: match[ 1 ] || "",
-      version: match[ 2 ] || "0"
-    };
-  };
-  jQuery.browser = {};
-  jQuery.browser[jQuery.uaMatch(navigator.userAgent).browser] = true;
-}
-
-=======
->>>>>>> Stashed changes
 /**
  * Small JavaScript module for the documentation.
  */
@@ -202,16 +164,9 @@ var Documentation = {
 
   /**
    * workaround a firefox stupidity
-<<<<<<< Updated upstream
-   * see: https://bugzilla.mozilla.org/show_bug.cgi?id=645075
-   */
-  fixFirefoxAnchorBug : function() {
-    if (document.location.hash)
-=======
    */
   fixFirefoxAnchorBug : function() {
     if (document.location.hash && $.browser.mozilla)
->>>>>>> Stashed changes
       window.setTimeout(function() {
         document.location.href += '';
       }, 10);
@@ -225,12 +180,6 @@ var Documentation = {
     var terms = (params.highlight) ? params.highlight[0].split(/\s+/) : [];
     if (terms.length) {
       var body = $('div.body');
-<<<<<<< Updated upstream
-      if (!body.length) {
-        body = $('body');
-      }
-=======
->>>>>>> Stashed changes
       window.setTimeout(function() {
         $.each(terms, function() {
           body.highlightText(this.toLowerCase(), 'highlighted');

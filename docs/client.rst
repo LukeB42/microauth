@@ -104,3 +104,8 @@ Check whether any roles your application expects to work with actually exist on 
 
 Try to think of a microservice as schroedingers shared library, making functionality available to different (possibly virtual/containerized) machines,
 with the tradeoff that the service might not always be available.
+
+The Python client library for Microauth uses the excellent `Requests`_ library to communicate, with a configurable timeout. If you consult the docs for `Requests`_ and code with the timeout in mind you should
+be able to cope with the possible unavailability of your auth server.
+
+.. _Requests: http://docs.python-requests.org/en/latest/
