@@ -1,5 +1,10 @@
 
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,13 +15,21 @@
     
     <title>Keys &mdash; Microauth 0.1 documentation</title>
     
+<<<<<<< Updated upstream
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+=======
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+>>>>>>> Stashed changes
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/style.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
+<<<<<<< Updated upstream
         URL_ROOT:    './',
+=======
+        URL_ROOT:    '',
+>>>>>>> Stashed changes
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -31,8 +44,13 @@
     <link rel="next" title="Users" href="users.html" />
     <link rel="prev" title="Administration" href="administration.html" /> 
   </head>
+<<<<<<< Updated upstream
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
+=======
+  <body>
+    <div class="related">
+>>>>>>> Stashed changes
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -47,14 +65,22 @@
         <li class="right" >
           <a href="administration.html" title="Administration"
              accesskey="P">previous</a> |</li>
+<<<<<<< Updated upstream
         <li class="nav-item nav-item-0"><a href="index.html">Microauth</a> &raquo;</li> 
+=======
+        <li><a href="index.html">Microauth</a> &raquo;</li> 
+>>>>>>> Stashed changes
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+<<<<<<< Updated upstream
           <div class="body" role="main">
+=======
+          <div class="body">
+>>>>>>> Stashed changes
             
   <div class="section" id="keys">
 <h1>Keys<a class="headerlink" href="#keys" title="Permalink to this headline">¶</a></h1>
@@ -100,7 +126,11 @@ generate their own API keys.</p>
 <h2>Reviewing<a class="headerlink" href="#reviewing" title="Permalink to this headline">¶</a></h2>
 <dl class="get">
 <dt id="get--v1-keys">
+<<<<<<< Updated upstream
 <code class="descname">GET </code><code class="descname">/v1/keys</code><a class="headerlink" href="#get--v1-keys" title="Permalink to this definition">¶</a></dt>
+=======
+<tt class="descname">GET </tt><tt class="descname">/v1/keys</tt><a class="headerlink" href="#get--v1-keys" title="Permalink to this definition">¶</a></dt>
+>>>>>>> Stashed changes
 <dd><p>This will furnish you with information about your key, like the names of objects it owns and whether it has access to global objects.</p>
 <p>For instance if we use the key generated in the <a class="reference internal" href="administration.html"><em>Administration</em></a> section:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/keys Authorization:&quot;Basic \$2a\$12\$xVOCuxixOd9ly/xiUlWqg.7mIa05Dk/bcT4DykvePiVLDjjEy2zbu&quot;</span>
@@ -129,7 +159,11 @@ generate their own API keys.</p>
 
 <dl class="get">
 <dt id="get--v1-keys-(name)">
+<<<<<<< Updated upstream
 <code class="descname">GET </code><code class="descname">/v1/keys/</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#get--v1-keys-(name)" title="Permalink to this definition">¶</a></dt>
+=======
+<tt class="descname">GET </tt><tt class="descname">/v1/keys/</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#get--v1-keys-(name)" title="Permalink to this definition">¶</a></dt>
+>>>>>>> Stashed changes
 <dd><p>This is an administrative endpoint for the master key to consume data about specific keys.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/keys/NewApp Authorization:&quot;Basic \$2a\$12\$R0yq8EOnxgWTuIuEPwwbsusQ8qgLTYSpUhpuhJjbw0mDHJZN9ERZm&quot;</span>
 <span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">200</span> <span class="nx">OK</span>
@@ -156,7 +190,11 @@ generate their own API keys.</p>
 <h2>Deleting<a class="headerlink" href="#deleting" title="Permalink to this headline">¶</a></h2>
 <dl class="delete">
 <dt id="delete--v1-keys">
+<<<<<<< Updated upstream
 <code class="descname">DELETE </code><code class="descname">/v1/keys</code><a class="headerlink" href="#delete--v1-keys" title="Permalink to this definition">¶</a></dt>
+=======
+<tt class="descname">DELETE </tt><tt class="descname">/v1/keys</tt><a class="headerlink" href="#delete--v1-keys" title="Permalink to this definition">¶</a></dt>
+>>>>>>> Stashed changes
 <dd><p>This permits users to delete their own keys, or for the master key to delete another key.</p>
 <p>To do this, specify the key string as <strong>key</strong> in the request body.</p>
 <p>Objects belonging to the target key can also be reparented to the global namespace by specifying a value for <strong>reparent</strong> in the request body, assuming the key has the systemwide bit set.</p>
@@ -193,7 +231,11 @@ generate their own API keys.</p>
           </div>
         </div>
       </div>
+<<<<<<< Updated upstream
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+=======
+      <div class="sphinxsidebar">
+>>>>>>> Stashed changes
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -212,6 +254,7 @@ generate their own API keys.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="users.html"
                         title="next chapter">Users</a></p>
+<<<<<<< Updated upstream
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -220,6 +263,14 @@ generate their own API keys.</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
+=======
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/keys.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+>>>>>>> Stashed changes
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -236,7 +287,11 @@ generate their own API keys.</p>
       </div>
       <div class="clearer"></div>
     </div>
+<<<<<<< Updated upstream
     <div class="related" role="navigation" aria-label="related navigation">
+=======
+    <div class="related">
+>>>>>>> Stashed changes
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -251,12 +306,21 @@ generate their own API keys.</p>
         <li class="right" >
           <a href="administration.html" title="Administration"
              >previous</a> |</li>
+<<<<<<< Updated upstream
         <li class="nav-item nav-item-0"><a href="index.html">Microauth</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015 redflagalert.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+=======
+        <li><a href="index.html">Microauth</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015 redflagalert.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+>>>>>>> Stashed changes
     </div>
   </body>
 </html>

@@ -4,7 +4,11 @@
  *
  * Sphinx stylesheet -- basic theme.
  *
+<<<<<<< Updated upstream
  * :copyright: Copyright 2007-2015 by the Sphinx team, see AUTHORS.
+=======
+ * :copyright: Copyright 2007-2011 by the Sphinx team, see AUTHORS.
+>>>>>>> Stashed changes
  * :license: BSD, see LICENSE for details.
  *
  */
@@ -89,7 +93,10 @@ div.sphinxsidebar #searchbox input[type="submit"] {
 
 img {
     border: 0;
+<<<<<<< Updated upstream
     max-width: 100%;
+=======
+>>>>>>> Stashed changes
 }
 
 /* -- search page ----------------------------------------------------------- */
@@ -197,10 +204,14 @@ h3:hover > a.headerlink,
 h4:hover > a.headerlink,
 h5:hover > a.headerlink,
 h6:hover > a.headerlink,
+<<<<<<< Updated upstream
 dt:hover > a.headerlink,
 caption:hover > a.headerlink,
 p.caption:hover > a.headerlink,
 div.code-block-caption:hover > a.headerlink {
+=======
+dt:hover > a.headerlink {
+>>>>>>> Stashed changes
     visibility: visible;
 }
 
@@ -317,6 +328,7 @@ table.docutils {
     border-collapse: collapse;
 }
 
+<<<<<<< Updated upstream
 table caption span.caption-number {
     font-style: italic;
 }
@@ -324,6 +336,8 @@ table caption span.caption-number {
 table caption span.caption-text {
 }
 
+=======
+>>>>>>> Stashed changes
 table.docutils td, table.docutils th {
     padding: 1px 8px 1px 5px;
     border-top: 0;
@@ -354,6 +368,7 @@ table.citation td {
     border-bottom: none;
 }
 
+<<<<<<< Updated upstream
 /* -- figures --------------------------------------------------------------- */
 
 div.figure {
@@ -373,6 +388,8 @@ div.figure p.caption span.caption-text {
 }
 
 
+=======
+>>>>>>> Stashed changes
 /* -- other body styles ----------------------------------------------------- */
 
 ol.arabic {
@@ -431,12 +448,21 @@ dl.glossary dt {
     margin: 0;
 }
 
+<<<<<<< Updated upstream
 .optional {
     font-size: 1.3em;
 }
 
 .sig-paren {
     font-size: larger;
+=======
+.refcount {
+    color: #060;
+}
+
+.optional {
+    font-size: 1.3em;
+>>>>>>> Stashed changes
 }
 
 .versionmodified {
@@ -504,6 +530,7 @@ table.highlighttable td {
     padding: 0 0.5em 0 0.5em;
 }
 
+<<<<<<< Updated upstream
 div.code-block-caption {
     padding: 2px 5px;
     font-size: small;
@@ -534,21 +561,36 @@ div.literal-block-wrapper div.highlight {
 }
 
 code.descname {
+=======
+tt.descname {
+>>>>>>> Stashed changes
     background-color: transparent;
     font-weight: bold;
     font-size: 1.2em;
 }
 
+<<<<<<< Updated upstream
 code.descclassname {
     background-color: transparent;
 }
 
 code.xref, a code {
+=======
+tt.descclassname {
+    background-color: transparent;
+}
+
+tt.xref, a tt {
+>>>>>>> Stashed changes
     background-color: transparent;
     font-weight: bold;
 }
 
+<<<<<<< Updated upstream
 h1 code, h2 code, h3 code, h4 code, h5 code, h6 code {
+=======
+h1 tt, h2 tt, h3 tt, h4 tt, h5 tt, h6 tt {
+>>>>>>> Stashed changes
     background-color: transparent;
 }
 

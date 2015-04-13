@@ -1,5 +1,10 @@
 
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -10,13 +15,21 @@
     
     <title>Roles &mdash; Microauth 0.1 documentation</title>
     
+<<<<<<< Updated upstream
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+=======
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+>>>>>>> Stashed changes
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/style.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
+<<<<<<< Updated upstream
         URL_ROOT:    './',
+=======
+        URL_ROOT:    '',
+>>>>>>> Stashed changes
         VERSION:     '0.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
@@ -28,11 +41,19 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/sidebar.js"></script>
     <link rel="top" title="Microauth 0.1 documentation" href="index.html" />
+<<<<<<< Updated upstream
     <link rel="next" title="Events" href="events.html" />
     <link rel="prev" title="Privs" href="privs.html" /> 
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
+=======
+    <link rel="next" title="Client" href="client.html" />
+    <link rel="prev" title="Privs" href="privs.html" /> 
+  </head>
+  <body>
+    <div class="related">
+>>>>>>> Stashed changes
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -42,19 +63,31 @@
           <a href="http-routingtable.html" title="HTTP Routing Table"
              >routing table</a> |</li>
         <li class="right" >
+<<<<<<< Updated upstream
           <a href="events.html" title="Events"
+=======
+          <a href="client.html" title="Client"
+>>>>>>> Stashed changes
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="privs.html" title="Privs"
              accesskey="P">previous</a> |</li>
+<<<<<<< Updated upstream
         <li class="nav-item nav-item-0"><a href="index.html">Microauth</a> &raquo;</li> 
+=======
+        <li><a href="index.html">Microauth</a> &raquo;</li> 
+>>>>>>> Stashed changes
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+<<<<<<< Updated upstream
           <div class="body" role="main">
+=======
+          <div class="body">
+>>>>>>> Stashed changes
             
   <div class="section" id="roles">
 <h1>Roles<a class="headerlink" href="#roles" title="Permalink to this headline">¶</a></h1>
@@ -64,7 +97,11 @@ Roles can have multiple privileges and multiple users, with these privileges bei
 <h2>Creating<a class="headerlink" href="#creating" title="Permalink to this headline">¶</a></h2>
 <dl class="put">
 <dt id="put--v1-roles">
+<<<<<<< Updated upstream
 <code class="descname">PUT </code><code class="descname">/v1/roles</code><a class="headerlink" href="#put--v1-roles" title="Permalink to this definition">¶</a></dt>
+=======
+<tt class="descname">PUT </tt><tt class="descname">/v1/roles</tt><a class="headerlink" href="#put--v1-roles" title="Permalink to this definition">¶</a></dt>
+>>>>>>> Stashed changes
 <dd><p>Roles can be created by specifying a comma-separated list of roles in the <strong>name</strong> field in the request body of a <strong>PUT</strong> request to <strong>/v1/roles</strong></p>
 <p>An optional <strong>systemwide</strong> field can be used to put these roles into the global namespace upon creation.</p>
 <div class="highlight-javascript"><div class="highlight"><pre> <span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">put</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/roles  Authorization:&quot;Basic \$2a\$12\$xVOCuxixOd9ly/xiUlWqg.7mIa05Dk/bcT4DykvePiVLDjjEy2zbu&quot; name=Administrators,Moderators,Users,Anonymous,Customers,Staff,Mobile</span>
@@ -129,7 +166,11 @@ Roles can have multiple privileges and multiple users, with these privileges bei
 <h2>Consuming<a class="headerlink" href="#consuming" title="Permalink to this headline">¶</a></h2>
 <dl class="put">
 <dt id="put--v1-roles">
+<<<<<<< Updated upstream
 <code class="descname">PUT </code><code class="descname">/v1/roles</code><a class="headerlink" href="#put--v1-roles" title="Permalink to this definition">¶</a></dt>
+=======
+<tt class="descname">PUT </tt><tt class="descname">/v1/roles</tt><a class="headerlink" href="#put--v1-roles" title="Permalink to this definition">¶</a></dt>
+>>>>>>> Stashed changes
 <dd><p>Data on roles available to your API key can be consumed all at once or in chunks by specifying <strong>page=</strong> and <strong>per_page=</strong></p>
 <p>The default value for <strong>per_page</strong> is 50.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/roles?page=1\&amp;per_page=3  Authorization:&quot;Basic \$2a\$12\$xVOCuxixOd9ly/xiUlWqg.7mIa05Dk/bcT4DykvePiVLDjjEy2zbu&quot;</span>
@@ -190,7 +231,11 @@ Individual roles can be examined through <strong>/v1/roles/</strong><em>name</em
 <p>Roles can be modified into and out of the global namespace en-masse with a <strong>POST</strong> request to the <strong>/v1/roles</strong> endpoint</p>
 <dl class="post">
 <dt id="post--v1-roles-">
+<<<<<<< Updated upstream
 <code class="descname">POST </code><code class="descname">/v1/roles/</code><a class="headerlink" href="#post--v1-roles-" title="Permalink to this definition">¶</a></dt>
+=======
+<tt class="descname">POST </tt><tt class="descname">/v1/roles/</tt><a class="headerlink" href="#post--v1-roles-" title="Permalink to this definition">¶</a></dt>
+>>>>>>> Stashed changes
 <dd><div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">post</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//127.0.0.1:7789/v1/roles Authorization:&quot;Basic \$2a\$12\$0Yd5C3FWsTlc/SC8WIEGDuVoakU0fEWop81XQSWUOCyOHIP0zJ..q&quot; name=Subscribers,Writers systemwide=1</span>
 <span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">200</span> <span class="nx">OK</span>
 <span class="nx">Content</span><span class="o">-</span><span class="nx">Length</span><span class="o">:</span> <span class="mi">262</span>
@@ -242,7 +287,11 @@ Individual roles can be examined through <strong>/v1/roles/</strong><em>name</em
 <p>The roles endpoint is useful in that an individual role can be modified into its ultimately desired state in one call.</p>
 <dl class="post">
 <dt id="post--v1-roles-(name)">
+<<<<<<< Updated upstream
 <code class="descname">POST </code><code class="descname">/v1/roles/</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#post--v1-roles-(name)" title="Permalink to this definition">¶</a></dt>
+=======
+<tt class="descname">POST </tt><tt class="descname">/v1/roles/</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#post--v1-roles-(name)" title="Permalink to this definition">¶</a></dt>
+>>>>>>> Stashed changes
 <dd><p>To demonstrate let&#8217;s quickly add some privs:</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="nx">post</span>  <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/roles/Users Authorization:&quot;Basic \$2a\$12\$xVOCuxixOd9ly/xiUlWqg.7mIa05Dk/bcT4DykvePiVLDjjEy2zbu&quot; allow=Create,Read</span>
 <span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">200</span> <span class="nx">OK</span>
@@ -311,7 +360,11 @@ Individual roles can be examined through <strong>/v1/roles/</strong><em>name</em
 <h2>Deleting<a class="headerlink" href="#deleting" title="Permalink to this headline">¶</a></h2>
 <dl class="delete">
 <dt id="delete--v1-roles">
+<<<<<<< Updated upstream
 <code class="descname">DELETE </code><code class="descname">/v1/roles</code><a class="headerlink" href="#delete--v1-roles" title="Permalink to this definition">¶</a></dt>
+=======
+<tt class="descname">DELETE </tt><tt class="descname">/v1/roles</tt><a class="headerlink" href="#delete--v1-roles" title="Permalink to this definition">¶</a></dt>
+>>>>>>> Stashed changes
 <dd><p>Use a comma-separated list of names in the <strong>name</strong> field of the request body to delete roles in bulk.</p>
 <div class="highlight-javascript"><div class="highlight"><pre><span class="nx">$</span> <span class="nx">http</span> <span class="o">--</span><span class="nx">verify</span><span class="o">=</span><span class="nx">no</span> <span class="k">delete</span> <span class="nx">https</span><span class="o">:</span><span class="c1">//localhost:7789/v1/roles Authorization:&quot;Basic \$2a\$12\$xVOCuxixOd9ly/xiUlWqg.7mIa05Dk/bcT4DykvePiVLDjjEy2zbu&quot; name=Anonymous,Moderators</span>
 <span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.0</span> <span class="mi">204</span> <span class="nx">NO</span> <span class="nx">CONTENT</span>
@@ -332,7 +385,11 @@ Individual roles can be examined through <strong>/v1/roles/</strong><em>name</em
           </div>
         </div>
       </div>
+<<<<<<< Updated upstream
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+=======
+      <div class="sphinxsidebar">
+>>>>>>> Stashed changes
         <div class="sphinxsidebarwrapper">
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
@@ -349,6 +406,7 @@ Individual roles can be examined through <strong>/v1/roles/</strong><em>name</em
   <p class="topless"><a href="privs.html"
                         title="previous chapter">Privs</a></p>
   <h4>Next topic</h4>
+<<<<<<< Updated upstream
   <p class="topless"><a href="events.html"
                         title="next chapter">Events</a></p>
   <div role="note" aria-label="source link">
@@ -359,6 +417,16 @@ Individual roles can be examined through <strong>/v1/roles/</strong><em>name</em
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
+=======
+  <p class="topless"><a href="client.html"
+                        title="next chapter">Client</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/roles.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+>>>>>>> Stashed changes
   <h3>Quick search</h3>
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
@@ -375,7 +443,11 @@ Individual roles can be examined through <strong>/v1/roles/</strong><em>name</em
       </div>
       <div class="clearer"></div>
     </div>
+<<<<<<< Updated upstream
     <div class="related" role="navigation" aria-label="related navigation">
+=======
+    <div class="related">
+>>>>>>> Stashed changes
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -385,17 +457,30 @@ Individual roles can be examined through <strong>/v1/roles/</strong><em>name</em
           <a href="http-routingtable.html" title="HTTP Routing Table"
              >routing table</a> |</li>
         <li class="right" >
+<<<<<<< Updated upstream
           <a href="events.html" title="Events"
+=======
+          <a href="client.html" title="Client"
+>>>>>>> Stashed changes
              >next</a> |</li>
         <li class="right" >
           <a href="privs.html" title="Privs"
              >previous</a> |</li>
+<<<<<<< Updated upstream
         <li class="nav-item nav-item-0"><a href="index.html">Microauth</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &copy; Copyright 2015 redflagalert.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.1.
+=======
+        <li><a href="index.html">Microauth</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015 redflagalert.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+>>>>>>> Stashed changes
     </div>
   </body>
 </html>

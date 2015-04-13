@@ -54,16 +54,16 @@ For instance let's modify the *Writers* role for a wiki, by appending a handful 
 	{
 	    "allow": [
 	        {
-    	        "read": true
-		        }, 
+	            "read": true
+	        }, 
 	        {
-    	        "write": true
-		        }, 
+	            "write": true
+	        }, 
 	        {
-    	        "delete": true
-		        }, 
+	            "delete": true
+	        }, 
 	        {
-	    	        "pagegroup": true
+	            "pagegroup": true
 	        }
 	    ]
 	}
@@ -71,3 +71,36 @@ For instance let's modify the *Writers* role for a wiki, by appending a handful 
 	> 
 
 Notice the format of the **post** command. The REPL currently doesn't support arguments with spaces in them. Fortunately, Microauth recognises comma-separated lists.
+
+Best Practices
+-----------------
+
+Store your API key and the URL for Microauth in the environment, this prevent your API key entering your projects commit history and so separate applications can make use of different versions of the API.
+
+When your application starts you'll also want to check whether your API key is valid:
+
+.. code-block:: python
+
+	uAuth = Client(app.config['MICROAUTH_KEY'], app.config['MICROAUTH_URL'], verify=False) # verify=False for self-signed certs
+	(resp, status) = uAuth.get('keys')
+	if status == 401:
+	    sys.exit("Invalid Microauth API key.")
+
+Check whether any roles your application expects to work with actually exist on the Microauth service when the application starts.
+
+.. code-block:: python
+
+	(resp, status) = uAuth.get('privs')
+	if resp == []:
+	    print "Privilege definitions missing from authentication server."
+	    privset = ','.join(app.config['INITIAL_PRIVILEGE_SET'])
+	    (resp, status) = uAuth.put('privs', body={'name': privset})
+	    if status != 201:
+    	    if status == 304:
+	            print "Group privileges already exist on the authentication server."
+	        else:
+	            print "Error %i creating the initial privilege set on the authentication server." % status
+
+
+Try to think of a microservice as schroedingers shared library, making functionality available to different (possibly virtual/containerized) machines,
+with the tradeoff that the service might not always be available.

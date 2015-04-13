@@ -16,12 +16,17 @@
  * Once the browser is closed the cookie is deleted and the position
  * reset to the default (expanded).
  *
+<<<<<<< Updated upstream
  * :copyright: Copyright 2007-2014 by the Sphinx team, see AUTHORS.
+=======
+ * :copyright: Copyright 2007-2011 by the Sphinx team, see AUTHORS.
+>>>>>>> Stashed changes
  * :license: BSD, see LICENSE for details.
  *
  */
 
 $(function() {
+<<<<<<< Updated upstream
   
   
   
@@ -30,6 +35,8 @@ $(function() {
   
   
 
+=======
+>>>>>>> Stashed changes
   // global elements used by the functions.
   // the 'sidebarbutton' element is defined as global after its
   // creation, in the add_sidebar_button function
@@ -142,7 +149,11 @@ $(function() {
     var items = document.cookie.split(';');
     for(var k=0; k<items.length; k++) {
       var key_val = items[k].split('=');
+<<<<<<< Updated upstream
       var key = key_val[0].replace(/ /, "");  // strip leading spaces
+=======
+      var key = key_val[0];
+>>>>>>> Stashed changes
       if (key == 'sidebar') {
         var value = key_val[1];
         if ((value == 'collapsed') && (!sidebar_is_collapsed()))
@@ -156,4 +167,8 @@ $(function() {
   add_sidebar_button();
   var sidebarbutton = $('#sidebarbutton');
   set_position_from_cookie();
+<<<<<<< Updated upstream
 });
+=======
+});
+>>>>>>> Stashed changes
