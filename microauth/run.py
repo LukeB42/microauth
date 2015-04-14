@@ -39,6 +39,7 @@ class Daemon:
 
 if __name__ == "__main__":
 	parser = optparse.OptionParser(prog="python -m microauth.run")
+	parser.add_option("-a", "--address", dest="address", action="store", default='0.0.0.0')
 	parser.add_option("-p", "--port", dest="port", action="store", default='7789')
 	parser.add_option("--key", dest="key", action="store", default=None)
 	parser.add_option("--cert", dest="cert", action="store", default=None)
@@ -90,5 +91,5 @@ if __name__ == "__main__":
 
 	if options.daemonise: Daemon(options.pidfile)
 
-	app.run(host="0.0.0.0", port=int(options.port), debug=options.debug,
+	app.run(host=options.address, port=int(options.port), debug=options.debug,
 		ssl_context=(options.cert, options.key))
