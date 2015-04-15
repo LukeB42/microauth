@@ -57,6 +57,14 @@ api.add_resource(roles.GrantPrivs,         "/roles/<string:name>/grant")
 api.add_resource(roles.DenyPrivs,          "/roles/<string:name>/deny")
 api.add_resource(roles.RevokePrivs,        "/roles/<string:name>/revoke")
 
+#api.add_resource(roles.RoleCollection,     "/groups")
+#api.add_resource(roles.RoleResource,       "/groups/<string:name>")
+#api.add_resource(roles.RoleResourcePrivs,  "/groups/<string:name>/privs")
+#api.add_resource(roles.RoleResourceUsers,  "/groups/<string:name>/users")
+#api.add_resource(roles.GrantPrivs,         "/groups/<string:name>/grant")
+#api.add_resource(roles.DenyPrivs,          "/groups/<string:name>/deny")
+#api.add_resource(roles.RevokePrivs,        "/groups/<string:name>/revoke")
+
 api.add_resource(privs.PrivCollection,     "/privs")
 api.add_resource(privs.PrivResource,       "/privs/<string:name>")
 

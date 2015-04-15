@@ -18,3 +18,12 @@ An interactive interpreter can be started with `python -m microauth.repl`.
 
 Documentation is available to read by navigating to `docs/_build/html`, running
 `python -m SimpleHTTPServer` and visiting `localhost:8000/index.html` in your browser.
+
+---
+#### Notice
+
+Within the next few commits the /roles endpoint will be renamed to /groups as this is
+more natural to reason about and communicate.
+
+You can currently see what changes you would have to make by commenting and uncommenting the
+appropriate lines in microauth/__init__.py and installing your modified version.
