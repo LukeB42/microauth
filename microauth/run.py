@@ -38,7 +38,7 @@ class Daemon:
 				pass
 
 if __name__ == "__main__":
-	parser = optparse.OptionParser(prog="python -m microauth.run")
+	parser = optparse.OptionParser(prog="python -m microauth.run", version=app.version)
 	parser.add_option("-a", "--address", dest="address", action="store", default='0.0.0.0')
 	parser.add_option("-p", "--port", dest="port", action="store", default='7789')
 	parser.add_option("--key", dest="key", action="store", default=None)

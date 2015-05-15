@@ -11,7 +11,9 @@ __path__ = extend_path(__path__, __name__)
 __all__ = ["run", "client", "repl", "resources"]
 
 app = Flask("microauth")
+app.version = "Microauth 0.02"
 app.config.from_object("microauth.config")
+app.config['HTTP_BASIC_AUTH_REALM'] = app.version
 
 api = restful.Api(app, prefix='/v1')
 
