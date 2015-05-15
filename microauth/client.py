@@ -28,13 +28,17 @@ class Client(object):
 		url = self.base+url
 		resp = None
 		if type=='GET':
-			resp = requests.get(url, verify=self.verify_https, headers=headers, timeout=self.timeout)
+			resp = requests.get(url, verify=self.verify_https,
+				headers=headers, timeout=self.timeout)
 		elif type=='DELETE':
-			resp = requests.delete(url, verify=self.verify_https, data=body, headers=headers, timeout=self.timeout)
+			resp = requests.delete(url, verify=self.verify_https,
+				data=body, headers=headers, timeout=self.timeout)
 		elif type=='PUT':
-			resp = requests.put(url, verify=self.verify_https, data=body, headers=headers, timeout=self.timeout)
+			resp = requests.put(url, verify=self.verify_https,
+				data=body, headers=headers, timeout=self.timeout)
 		elif type=='POST':
-			resp = requests.post(url, verify=self.verify_https, data=body, headers=headers, timeout=self.timeout)
+			resp = requests.post(url, verify=self.verify_https,
+				data=body, headers=headers, timeout=self.timeout)
 		try: return resp.json(), resp.status_code
 		except: return {}, resp.status_code
 
@@ -71,7 +75,8 @@ class Client(object):
 
 	def can(self, priv):
 		if self.username:
-			(resp, status) =  self._send_request('users/%s?can=%s' % (self.username, priv))
+			(resp, status) =  self._send_request('users/%s?can=%s' % \
+				(self.username, priv))
 			if status == 200: return resp
 		raise Exception("No username attribute defined.")
 

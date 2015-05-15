@@ -24,6 +24,11 @@ from microauth.resources import privs
 from microauth.resources import events
 from microauth.resources import models
 
+try:
+	import setproctitle
+	setproctitle.setproctitle("microauth")
+except ImportError:
+	pass
 
 inspector = Inspector.from_engine(db.engine)
 tables = [table_name for table_name in inspector.get_table_names()]

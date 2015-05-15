@@ -42,15 +42,9 @@ class APIKey(db.Model):
 		response['active'] = self.active
 		response['systemwide'] = self.systemwide
 		if with_objs:
-			users = []
-			roles = []
-			privs = []
-			for i in self.users: users.append(i.username)
-			for i in self.roles: roles.append(i.name)
-			for i in self.privs: privs.append(i.name)
-			response['users']      = users
-			response['roles']      = roles
-			response['privileges'] = privs
+			response['users']      = [u.username for u in self.users]
+			response['roles']      = [r.name for r in self.roles]
+			response['privileges'] = [p.name for p in self.privs]
 		if self.systemwide:
 			response['global_delete'] = self.global_del
 		return response

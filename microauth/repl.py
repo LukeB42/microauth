@@ -7,7 +7,7 @@ from microauth.resources.models import APIKey
 
 try:
 	from pygments import highlight
-	from pygments.lexers import JsonLexer
+	from pygments.lexers import JSONLexer
 	from pygments.styles import get_style_by_name, STYLE_MAP
 	from pygments.formatters.terminal256 import Terminal256Formatter
 except ImportError: highlight = False
@@ -88,7 +88,7 @@ class repl(cmd.Cmd):
 	def display(self, response):
 		if self.highlight:
 			print response[1]
-			print highlight(json.dumps(response[0],indent=4), JsonLexer(), Terminal256Formatter(style=self.style))
+			print highlight(json.dumps(response[0],indent=4), JSONLexer(), Terminal256Formatter(style=self.style))
 		else: self.c.p(response)
 
 def reqwrap(func):

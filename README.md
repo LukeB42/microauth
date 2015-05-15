@@ -22,8 +22,4 @@ Documentation is available to read by navigating to `docs/_build/html`, running
 ---
 #### Notice
 
-Within the next few commits the /roles endpoint will be renamed to /groups as this is
-more natural to reason about and communicate.
-
-You can currently see what changes you would have to make by commenting and uncommenting the
-appropriate lines in microauth/__init__.py and installing your modified version.
+The hope for the future with this project is to rename /roles to /groups and include a simple management frontend
