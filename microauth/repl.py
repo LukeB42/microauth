@@ -3,7 +3,7 @@ import cmd
 import json
 import optparse
 from microauth.client import Client
-from microauth.resources.models import APIKey
+from microauth.models import APIKey
 
 try:
 	from pygments import highlight
