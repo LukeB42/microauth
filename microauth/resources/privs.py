@@ -5,10 +5,10 @@ import re
 from microauth import db
 from sqlalchemy import and_
 from flask.ext import restful
-from flask.ext.restful import abort, reqparse
-from microauth.resources.models import Priv, Acl, Role
-from microauth.resources.utils import gzipped, get
+from microauth.utils import gzipped, get
 from microauth.resources.api_key import auth
+from microauth.models import Priv, Acl, Role
+from flask.ext.restful import abort, reqparse
 
 class PrivResource(restful.Resource):
 	def get(self, name):

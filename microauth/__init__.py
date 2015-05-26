@@ -8,7 +8,7 @@ from flask import Flask, send_from_directory
 from sqlalchemy.engine.reflection import Inspector
 
 __path__ = extend_path(__path__, __name__)
-__all__ = ["run", "client", "repl", "resources"]
+__all__ = ["run", "client", "repl", "resources", "models", "utils"]
 
 app = Flask("microauth")
 app.version = "Microauth 0.02"
@@ -19,12 +19,12 @@ api = restful.Api(app, prefix='/v1')
 
 db = SQLAlchemy(app)
 
+from microauth import models
 from microauth.resources import api_key
 from microauth.resources import users
 from microauth.resources import roles
 from microauth.resources import privs
 from microauth.resources import events
-from microauth.resources import models
 
 try:
 	import setproctitle

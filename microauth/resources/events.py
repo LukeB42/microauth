@@ -12,9 +12,9 @@ from flask.ext.restful import abort, reqparse
 from sqlalchemy.orm import exc
 
 from microauth import app, db
-from microauth.resources.models import *
+from microauth.models import *
+from microauth.utils import gzipped, get
 from microauth.resources.api_key import auth
-from microauth.resources.utils import gzipped, get
 
 class EventCollection(restful.Resource):
 

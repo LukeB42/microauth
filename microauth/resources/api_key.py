@@ -4,12 +4,12 @@ You may also want to check the definition of API keys in models.py.
 """
 import re
 from flask import request
-from flask.ext import restful
-from flask.ext.restful import reqparse, abort
-from microauth.resources.models import *
-from microauth.resources.utils import get, gzipped
-from microauth import app, db
 from sqlalchemy import and_
+from flask.ext import restful
+from microauth import app, db
+from microauth.models import *
+from microauth.utils import get, gzipped
+from flask.ext.restful import reqparse, abort
 
 def auth():
 	if 'Authorization' in request.headers:

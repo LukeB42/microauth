@@ -6,10 +6,10 @@ import re
 from microauth import db
 from flask.ext import restful
 from sqlalchemy import and_, or_
+from microauth.utils import gzipped, get
 from flask.ext.restful import abort, reqparse
 from microauth.resources.api_key import auth
-from microauth.resources.utils import gzipped, get
-from microauth.resources.models import Role, Priv, Acl, User
+from microauth.models import Role, Priv, Acl, User
 
 
 class RoleCollection(restful.Resource):
