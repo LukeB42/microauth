@@ -22,4 +22,4 @@ Documentation is available to read by navigating to `docs/_build/html`, running
 ---
 #### Notice
 
-The hope for the future with this project is to rename /roles to /groups and include a simple management frontend
+/roles have been renamed to /groups
