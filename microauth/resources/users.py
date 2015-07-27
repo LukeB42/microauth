@@ -93,7 +93,7 @@ class UserResource(restful.Resource):
 			args = parser.parse_args()
 			if args.can:
 				return user.can(args.can)
-			return user.jsonify(with_roles=True)
+			return user.jsonify(with_groups=True)
 
 	@gzipped
 	def post(self, username):

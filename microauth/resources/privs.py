@@ -7,7 +7,7 @@ from sqlalchemy import and_
 from flask.ext import restful
 from microauth.utils import gzipped, get
 from microauth.resources.api_key import auth
-from microauth.models import Priv, Acl, Role
+from microauth.models import Priv, Acl, Group
 from flask.ext.restful import abort, reqparse
 
 class PrivResource(restful.Resource):
@@ -109,7 +109,7 @@ class PrivCollection(restful.Resource):
 
 		for priv in privs:
 			if not priv.key and not key.global_del: continue
-			for acl in priv.roles:
+			for acl in priv.groups:
 				db.session.delete(acl)
 			db.session.delete(priv)
 

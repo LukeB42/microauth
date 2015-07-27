@@ -1,7 +1,7 @@
 import os
 if not 'MICROAUTH_DATABASE' in os.environ:
-	print 'You need to export a path for MICROAUTH_DATABASE'
-	print 'Eg: export MICROAUTH_DATABASE = "sqlite://///home/you/.microauth.db"'
+#	print 'You need to export a path for MICROAUTH_DATABASE'
+#	print 'Eg: export MICROAUTH_DATABASE = "sqlite://///home/you/.microauth.db"'
 	SQLALCHEMY_DATABASE_URI = (
     	"sqlite:///:memory:"
 	)
