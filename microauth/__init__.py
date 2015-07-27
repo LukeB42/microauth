@@ -22,13 +22,12 @@ db = SQLAlchemy(app)
 from microauth import models
 from microauth.resources import api_key
 from microauth.resources import users
-from microauth.resources import roles
+from microauth.resources import groups
 from microauth.resources import privs
 from microauth.resources import events
 
 
 def init():
-
 
 	try:
 		import setproctitle
@@ -60,21 +59,13 @@ def init():
 	api.add_resource(users.UserResource,       "/users/<string:username>")
 	api.add_resource(users.UserLogin,          "/users/<string:username>/login")
 
-#	api.add_resource(roles.RoleCollection,     "/roles")
-#	api.add_resource(roles.RoleResource,       "/roles/<string:name>")
-#	api.add_resource(roles.RoleResourcePrivs,  "/roles/<string:name>/privs")
-#	api.add_resource(roles.RoleResourceUsers,  "/roles/<string:name>/users")
-#	api.add_resource(roles.GrantPrivs,         "/roles/<string:name>/grant")
-#	api.add_resource(roles.DenyPrivs,          "/roles/<string:name>/deny")
-#	api.add_resource(roles.RevokePrivs,        "/roles/<string:name>/revoke")
-
-	api.add_resource(roles.RoleCollection,     "/groups")
-	api.add_resource(roles.RoleResource,       "/groups/<string:name>")
-	api.add_resource(roles.RoleResourcePrivs,  "/groups/<string:name>/privs")
-	api.add_resource(roles.RoleResourceUsers,  "/groups/<string:name>/users")
-	api.add_resource(roles.GrantPrivs,         "/groups/<string:name>/grant")
-	api.add_resource(roles.DenyPrivs,          "/groups/<string:name>/deny")
-	api.add_resource(roles.RevokePrivs,        "/groups/<string:name>/revoke")
+	api.add_resource(groups.GroupCollection,    "/groups")
+	api.add_resource(groups.GroupResource,      "/groups/<string:name>")
+	api.add_resource(groups.GroupResourcePrivs, "/groups/<string:name>/privs")
+	api.add_resource(groups.GroupResourceUsers, "/groups/<string:name>/users")
+	api.add_resource(groups.GrantPrivs,         "/groups/<string:name>/grant")
+	api.add_resource(groups.DenyPrivs,          "/groups/<string:name>/deny")
+	api.add_resource(groups.RevokePrivs,        "/groups/<string:name>/revoke")
 
 	api.add_resource(privs.PrivCollection,     "/privs")
 	api.add_resource(privs.PrivResource,       "/privs/<string:name>")

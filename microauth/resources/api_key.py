@@ -35,14 +35,14 @@ class KeyCollection(restful.Resource):
 			response['system']['permit_new'] = app.config['PERMIT_NEW']
 
 		if key.systemwide:
-			global_users = []
-			global_roles = []
-			global_privs = []
+			global_users  = []
+			global_groups = []
+			global_privs  = []
 			for i in User.query.filter(User.key == None).all(): global_users.append(i.username)
-			for i in Role.query.filter(Role.key == None).all(): global_roles.append(i.name)
+			for i in Group.query.filter(Group.key == None).all(): global_groups.append(i.name)
 			for i in Priv.query.filter(Priv.key == None).all(): global_privs.append(i.name)
 			response['system']['users'] = global_users
-			response['system']['roles'] = global_roles
+			response['system']['groups'] = global_groups
 			response['system']['privileges'] = global_privs
 
 		return [response]
@@ -151,15 +151,15 @@ class KeyCollection(restful.Resource):
 			for u in target.users:
 				if not User.query.filter(and_(User.username == u.username, User.key == None)).first():
 					del u.key
-			for r in target.roles:
-				if not Role.query.filter(and_(Role.name == r.name, Role.key == None)).first():
+			for r in target.groups:
+				if not Group.query.filter(and_(Group.name == r.name, Group.key == None)).first():
 					del r.key
 			for p in target.users:
 				if not Priv.query.filter(and_(Priv.name == p.name, Priv.key == None)).first():
 					del p.key
 		else:
 			for u in target.users: db.session.delete(u)
-			for r in target.roles: db.session.delete(r)
+			for r in target.groups: db.session.delete(r)
 			for p in target.users: db.session.delete(p)
 
 		db.session.delete(target)
