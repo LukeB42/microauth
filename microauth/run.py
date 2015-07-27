@@ -3,7 +3,7 @@ import os
 import sys
 import pwd
 import optparse
-from microauth import app
+from microauth import app, init
 
 class Daemon:
 	def __init__(self, pidfile):
@@ -90,6 +90,8 @@ if __name__ == "__main__":
 		raise SystemExit
 
 	if options.daemonise: Daemon(options.pidfile)
+
+	init()
 
 	app.run(host=options.address, port=int(options.port), debug=options.debug,
 		ssl_context=(options.cert, options.key))

@@ -24,7 +24,7 @@ class APIKey(db.Model):
 	global_del = db.Column(db.Boolean())
 	users  = db.relationship("User", backref="key")
 	privs  = db.relationship("Priv", backref="key")
-	roles  = db.relationship("Role", backref="key")
+	groups  = db.relationship("Group", backref="key")
 	events = db.relationship("Event", backref="key")
 
 	def generate_key_str(self):
@@ -43,7 +43,7 @@ class APIKey(db.Model):
 		response['systemwide'] = self.systemwide
 		if with_objs:
 			response['users']      = [u.username for u in self.users]
-			response['roles']      = [r.name for r in self.roles]
+			response['groups']     = [r.name for r in self.groups]
 			response['privileges'] = [p.name for p in self.privs]
 		if self.systemwide:
 			response['global_delete'] = self.global_del
@@ -53,20 +53,20 @@ class APIKey(db.Model):
 class Acl(db.Model):
 	__tablename__ = 'acl'
 	priv_id = db.Column(db.Integer(), db.ForeignKey('privs.id'), primary_key=True)
-	role_id = db.Column(db.Integer(), db.ForeignKey('roles.id'), primary_key=True)
+	group_id = db.Column(db.Integer(), db.ForeignKey('groups.id'), primary_key=True)
 	created = db.Column(db.DateTime(), default=db.func.now())
 	allowed = db.Column(db.Boolean())	
-	priv	= db.relationship('Priv', backref="roles")
+	priv	= db.relationship('Priv', backref="groups")
 
 	def __repr__(self):
-		if not self.priv or not self.role:
+		if not self.priv or not self.group:
 			return "<Acl>"
 		a = "deny"
 		if self.allowed: a = "allow"
 
-		if self.role and self.role.key:
-			return "<Acl %s/%s/%s:%s>" % (self.role.key.name, self.role.name, self.priv.name, a)
-		return "<Acl */%s/%s:%s>" % (self.role.name, self.priv.name, a)
+		if self.group and self.group.key:
+			return "<Acl %s/%s/%s:%s>" % (self.group.key.name, self.group.name, self.priv.name, a)
+		return "<Acl */%s/%s:%s>" % (self.group.name, self.priv.name, a)
 
 class Priv(db.Model):
 	__tablename__ = 'privs'
@@ -87,19 +87,19 @@ class Priv(db.Model):
 			response['created'] = self.created.strftime("%A, %d. %B %Y %I:%M%p")
 		return response
 
-user_roles = db.Table('user_roles',
-	db.Column('role_id', db.Integer(), db.ForeignKey('roles.id')),
+user_groups = db.Table('user_groups',
+	db.Column('group_id', db.Integer(), db.ForeignKey('groups.id')),
 	db.Column('user_id', db.Integer(), db.ForeignKey('users.id'))
 )
 
-class Role(db.Model):
-	__tablename__ = 'roles'
+class Group(db.Model):
+	__tablename__ = 'groups'
 	id      = db.Column(db.Integer, primary_key=True)
 	name    = db.Column(db.String(20))
-	users   = db.relationship("User", backref="roles")
+	users   = db.relationship("User", backref="groups")
 	key_id  = db.Column(db.Integer(), db.ForeignKey("api_keys.id"))
-	users   = db.relationship("User", secondary=user_roles, backref="roles")
-	privs   = db.relationship("Acl", backref="role")
+	users   = db.relationship("User", secondary=user_groups, backref="groups")
+	privs   = db.relationship("Acl", backref="group")
 	created = db.Column(db.DateTime(), default=db.func.now())
 
 	def add_parent(self, parent):
@@ -111,10 +111,10 @@ class Role(db.Model):
 
 	@staticmethod
 	def get_by_name(name):
-		return Role.query.filter_by(name=name).first()
+		return Group.query.filter_by(name=name).first()
 
 	def __repr__(self):
-		return "<Role %s>" % self.name
+		return "<Group %s>" % self.name
 
 	def jsonify(self, with_users=False, with_privs=False):
 		response = {'name': self.name,
@@ -160,7 +160,7 @@ class User(db.Model):
 			password.encode(), bcrypt.gensalt(app.config["BCRYPT_ROUNDS"])
 		).decode()
 
-	def jsonify(self, with_roles=False, with_preferences=False):
+	def jsonify(self, with_groups=False, with_preferences=False):
 		response = {
 			"username": self.username,
 			"name": self.name,
@@ -174,10 +174,10 @@ class User(db.Model):
 		if with_preferences and type(self.preferences) == dict:
 			response['preferences'] = self.preferenes
 		if not self.key: response['systemwide'] = True
-		if with_roles:
-			roles = []
-			for r in self.roles: roles.append(r.name)
-			response['roles'] = roles
+		if with_groups:
+			groups = []
+			for r in self.groups: groups.append(r.name)
+			response['groups'] = groups
 		return response
 
 	def change_passwd(self, password):
@@ -198,7 +198,7 @@ class User(db.Model):
 		permission = []
 		priv = Priv.query.filter(Priv.name == priv).first()
 		if priv:
-			for r in self.roles:
+			for r in self.groups:
 				for p in r.privs:
 					if p.priv_id == priv.id:
 						permission.append(p.allowed)

@@ -1,6 +1,6 @@
 """
-This file defines the interface to roles.
-TODO: modifying a collection of roles in one call.
+This file defines the interface to groups.
+TODO: modifying a collection of groups in one call.
 """
 import re
 from microauth import db
@@ -9,10 +9,10 @@ from sqlalchemy import and_, or_
 from microauth.utils import gzipped, get
 from flask.ext.restful import abort, reqparse
 from microauth.resources.api_key import auth
-from microauth.models import Role, Priv, Acl, User
+from microauth.models import Group, Priv, Acl, User
 
 
-class RoleCollection(restful.Resource):
+class GroupCollection(restful.Resource):
 	@gzipped
 	def get(self):
 		key = auth()
@@ -23,72 +23,72 @@ class RoleCollection(restful.Resource):
 		args = parser.parse_args()
 		if args.page:
 			if args.per_page:
-				return [role.jsonify() for role in get(key, Role, page=args.page, per_page=args.per_page)]
-			return [role.jsonify() for role in get(key, Role, page=args.page)]
+				return [group.jsonify() for group in get(key, Group, page=args.page, per_page=args.per_page)]
+			return [group.jsonify() for group in get(key, Group, page=args.page)]
 
-		return [role.jsonify() for role in get(key, Role)]
+		return [group.jsonify() for group in get(key, Group)]
 
 	@gzipped
 	def put(self):
-		"Create a role on a given API key."
+		"Create a group on a given API key."
 		key = auth()
 
 		parser = reqparse.RequestParser()
-		parser.add_argument("name", type=str, help="Name of the role to create.", required=True)
-		parser.add_argument("systemwide", type=bool, help="Determines whether the role is systemwide.", default=False)
+		parser.add_argument("name", type=str, help="Name of the group to create.", required=True)
+		parser.add_argument("systemwide", type=bool, help="Determines whether the group is systemwide.", default=False)
 		args = parser.parse_args()
 
-		roles = []
+		groups = []
 		response = {}
-		msg = "Role names may only contained alphanumeric characters, underscores, spaces and hyphens."
+		msg = "Group names may only contained alphanumeric characters, underscores, spaces and hyphens."
 
 		for n in args.name.split(','):
-			if not re.match("^[\w\-\s]+$", n) or get(key, Role, ('name', n)): continue
+			if not re.match("^[\w\-\s]+$", n) or get(key, Group, ('name', n)): continue
 
-			r = Role(name=n)
+			r = Group(name=n)
 			if not key.systemwide or not args.systemwide:
 				r.key = key			
 
-			roles.append(r)
+			groups.append(r)
 			db.session.add(r)
 
-		if not roles:
-			return {"message": "role(s) already present or contain(s) illegal characters."}, 304
+		if not groups:
+			return {"message": "group(s) already present or contain(s) illegal characters."}, 304
 
 		db.session.commit()
-		return [r.jsonify() for r in roles], 201
+		return [r.jsonify() for r in groups], 201
 
 
 	def post(self):
 		key = auth()
 		if not key.systemwide: abort(403)
 
-		# TODO: Use a comma-separated list of names to modify multiple roles in one request.
+		# TODO: Use a comma-separated list of names to modify multiple groups in one request.
 		parser = reqparse.RequestParser()
-		parser.add_argument("name", type=str, help="Name of roles.", required=True)
+		parser.add_argument("name", type=str, help="Name of groups.", required=True)
 		parser.add_argument("systemwide", type=bool, help="Systemwide flag", required=True, default=None)
 		args = parser.parse_args()
 
-		roles = []
+		groups = []
 
 		for n in args.name.split(','):
-			r = get(key, Role, ('name', n))
+			r = get(key, Group, ('name', n))
 			if r:
 
 				if args.systemwide == True:
-					already = get(key,Role,('name',n), local=False)
+					already = get(key,Group,('name',n), local=False)
 					if len(already) > 1:
-						abort(409, message="A systemwide role with this name already exists.")
-					r.key.roles.remove(r)
+						abort(409, message="A systemwide group with this name already exists.")
+					r.key.groups.remove(r)
 
 				elif args.systemwide == False and key.global_del:
 					r.key = key
 
-				roles.append(r)
+				groups.append(r)
 				db.session.add(r)
 
 		db.session.commit()
-		return [role.jsonify() for role in roles]
+		return [group.jsonify() for group in groups]
 
 
 	@gzipped
@@ -96,46 +96,46 @@ class RoleCollection(restful.Resource):
 		key = auth()
 
 		parser = reqparse.RequestParser()
-		parser.add_argument("name", type=str, help="Name of the role to delete.", required=True)
+		parser.add_argument("name", type=str, help="Name of the group to delete.", required=True)
 		args = parser.parse_args()
 
-		roles = []
+		groups = []
 
 
 		for n in args.name.split(','):
-			r = get(key, Role, ('name', n))
+			r = get(key, Group, ('name', n))
 			if r and ((r.key == key) or key.global_del):
-				roles.append(r)
+				groups.append(r)
 				db.session.delete(r)
 
-		if not roles: return {"message": "Unrecognized role(s)."}, 304
+		if not groups: return {"message": "Unrecognized group(s)."}, 304
 		db.session.commit()
 
 		return {}, 204
 
-class RoleResource(restful.Resource):
+class GroupResource(restful.Resource):
 
 	@gzipped
 	def get(self, name):
 		key = auth()
-		role = get(key, Role, ('name', name))
-		try: return get(key, Role, ('name', name)).jsonify(with_users=True, with_privs=True)
-		except: abort(404, message="Unrecognized role.")
+		group = get(key, Group, ('name', name))
+		try: return get(key, Group, ('name', name)).jsonify(with_users=True, with_privs=True)
+		except: abort(404, message="Unrecognized group.")
 
 	def post(self, name):
 		key = auth()
 		parser = reqparse.RequestParser()
-		parser.add_argument("add", type=str, help="A list of users to add the role to.")
-		parser.add_argument("remove", type=str, help="A list of users to remove the role from.")
-		parser.add_argument("allow", type=str, help="A list of permissions to grant to the role.")
-		parser.add_argument("deny", type=str, help="A list of permissions to deny the role.")
-		parser.add_argument("revoke", type=str, help="A list of permissions to revoke from the role.")
+		parser.add_argument("add", type=str, help="A list of users to add the group to.")
+		parser.add_argument("remove", type=str, help="A list of users to remove the group from.")
+		parser.add_argument("allow", type=str, help="A list of permissions to grant to the group.")
+		parser.add_argument("deny", type=str, help="A list of permissions to deny the group.")
+		parser.add_argument("revoke", type=str, help="A list of permissions to revoke from the group.")
 		args = parser.parse_args()
 
-		role = get(key,Role,('name',name))
-		if not role: abort(404, message="Unrecognized role.")
+		group = get(key,Group,('name',name))
+		if not group: abort(404, message="Unrecognized group.")
 
-		db.session.add(role)
+		db.session.add(group)
 		response = {}
 
 		if args.add:
@@ -145,7 +145,7 @@ class RoleResource(restful.Resource):
 				if user:
 					users.append(user)
 					db.session.add(user)
-					user.roles.append(role)
+					user.groups.append(group)
 			if not users:
 				response['add'] = {'message': "You didn't specify any recognisable users."}
 			else:
@@ -158,7 +158,7 @@ class RoleResource(restful.Resource):
 				if user:
 					users.append(user)
 					db.session.add(user)
-					user.roles.remove(role)
+					user.groups.remove(group)
 			if not users:
 				response['remove'] = {'message': "You didn't specify any recognisable users."}
 			else:
@@ -172,11 +172,11 @@ class RoleResource(restful.Resource):
 				if priv:
 					allow_privs.append(priv)
 					acl = Acl.query.filter(
-						and_(Acl.priv == priv, Acl.role == role)
+						and_(Acl.priv == priv, Acl.group == group)
 					).first()
 					if not acl:
 						acl = Acl()
-						acl.role = role
+						acl.group = group
 						acl.priv = priv
 					acl.allowed = True
 					allow_acls.append(acl)
@@ -194,11 +194,11 @@ class RoleResource(restful.Resource):
 				if priv:
 					deny_privs.append(priv)
 					acl = Acl.query.filter(
-						and_(Acl.priv == priv, Acl.role == role)
+						and_(Acl.priv == priv, Acl.group == group)
 					).first()
 					if not acl:
 						acl = Acl()
-						acl.role = role
+						acl.group = group
 						acl.priv = priv
 					acl.allowed = False
 					deny_acls.append(acl)
@@ -207,7 +207,7 @@ class RoleResource(restful.Resource):
 			if deny_acls:
 				response['deny'] = [{acl.priv.name: acl.allowed}  for acl in deny_acls]
 
-		if args.revoke and (key.global_del or role.key):
+		if args.revoke and (key.global_del or group.key):
 			revoke_privs = []
 			revoke_acls  = []
 			for n in args.revoke.split(','):
@@ -215,10 +215,10 @@ class RoleResource(restful.Resource):
 				if priv:
 					revoke_privs.append(priv)
 					acl = Acl.query.filter(
-						and_(Acl.priv == priv, Acl.role == role)
+						and_(Acl.priv == priv, Acl.group == group)
 					).first()
 					revoke_acls.append({acl.priv.name: acl.allowed})
-					del acl.role
+					del acl.group
 					del acl.priv
 					db.session.delete(acl)
 			if not revoke_privs:
@@ -239,11 +239,11 @@ class GrantPrivs(restful.Resource):
 		key = auth()
 
 		parser = reqparse.RequestParser()
-		parser.add_argument("name", type=str, help="Name of the role to create.", required=True)
+		parser.add_argument("name", type=str, help="Name of the group to create.", required=True)
 		args = parser.parse_args()
 
-		role = get(key,Role,('name',name))
-		if not role: abort(404, message="Unrecognized role.")
+		group = get(key,Group,('name',name))
+		if not group: abort(404, message="Unrecognized group.")
 
 		privs = []
 		acls=[]
@@ -253,18 +253,18 @@ class GrantPrivs(restful.Resource):
 			if priv:
 				privs.append(priv)
 				acl = Acl.query.filter(
-					and_(Acl.priv == priv, Acl.role == role)
+					and_(Acl.priv == priv, Acl.group == group)
 				).first()
 				if not acl:
 					acl = Acl()
-					acl.role = role
+					acl.group = group
 					acl.priv = priv
 				acl.allowed = True
 				acls.append(acl)
 		if not privs:
 			return {'message': "You didn't specify any recognisable privileges."}, 304
 
-		db.session.add(role)
+		db.session.add(group)
 		db.session.commit()
 		return [{acl.priv.name: acl.allowed}  for acl in acls]
 
@@ -273,11 +273,11 @@ class DenyPrivs(restful.Resource):
 		key = auth()
 
 		parser = reqparse.RequestParser()
-		parser.add_argument("name", type=str, help="Name of the role to create.", required=True)
+		parser.add_argument("name", type=str, help="Name of the group to create.", required=True)
 		args = parser.parse_args()
 
-		role = get(key,Role,('name',name))
-		if not role: abort(404, message="Unrecognized role.")
+		group = get(key,Group,('name',name))
+		if not group: abort(404, message="Unrecognized group.")
 
 		privs = []
 		acls=[]
@@ -287,18 +287,18 @@ class DenyPrivs(restful.Resource):
 			if priv:
 				privs.append(priv)
 				acl = Acl.query.filter(
-					and_(Acl.priv == priv, Acl.role == role)
+					and_(Acl.priv == priv, Acl.group == group)
 				).first()
 				if not acl:
 					acl = Acl()
-					acl.role = role
+					acl.group = group
 					acl.priv = priv
 				acl.allowed = False
 				acls.append(acl)
 		if not privs:
 			return {'message': "You didn't specify any recognisable privileges."}, 304
 
-		db.session.add(role)
+		db.session.add(group)
 		db.session.commit()
 		return [{acl.priv.name: acl.allowed}  for acl in acls]
 
@@ -308,44 +308,44 @@ class RevokePrivs(restful.Resource):
 		key = auth()
 
 		parser = reqparse.RequestParser()
-		parser.add_argument("name", type=str, help="Name of the role to create.", required=True)
+		parser.add_argument("name", type=str, help="Name of the group to create.", required=True)
 		args = parser.parse_args()
 
-		role = get(key,Role,('name',name))
-		if not role: abort(404, message="Unrecognized role.")
+		group = get(key,Group,('name',name))
+		if not group: abort(404, message="Unrecognized group.")
 
-		if not role.key and not key.systemwide:
-			return {"message": "Cannot revoke on global roles."}, 304
+		if not group.key and not key.systemwide:
+			return {"message": "Cannot revoke on global groups."}, 304
 		privs = []
 		acls=[]
 
 		for n in args.name.split(','):
 			priv = get(key, Priv, ('name', n))
-			if priv and (key.global_del or role.key):
+			if priv and (key.global_del or group.key):
 				privs.append(priv)
 				acl = Acl.query.filter(
-					and_(Acl.priv == priv, Acl.role == role)
+					and_(Acl.priv == priv, Acl.group == group)
 				).first()
 				acls.append({acl.priv.name: acl.allowed})
 				db.session.delete(acl)
 		if not privs:
 			return {'message': "You didn't specify any recognisable privileges."}, 304
 
-		db.session.add(role)
+		db.session.add(group)
 		db.session.commit()
 		return acls
 
-class RoleResourcePrivs(restful.Resource):
+class GroupResourcePrivs(restful.Resource):
 	def get(self, name):
 		key = auth()
-		role = get(key, Role, ('name', name))
-		if not role: abort(404, message="Unrecognized role.")
-		return role.jsonify(with_privs=True)['privileges']
+		group = get(key, Group, ('name', name))
+		if not group: abort(404, message="Unrecognized group.")
+		return group.jsonify(with_privs=True)['privileges']
 
 
-class RoleResourceUsers(restful.Resource):
+class GroupResourceUsers(restful.Resource):
 	def get(self, name):
 		key = auth()
-		role = get(key, Role, ('name', name))
-		if not role: abort(404, message="Unrecognized role.")
-		return role.jsonify(with_users=True)['users']
+		group = get(key, Group, ('name', name))
+		if not group: abort(404, message="Unrecognized group.")
+		return group.jsonify(with_users=True)['users']
