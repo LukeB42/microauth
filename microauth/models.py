@@ -255,7 +255,6 @@ class Config(db.Model):
 	permit_root_login = db.Column(db.Boolean(), default=False)
 	create_accounts   = db.Column(db.Boolean(), default=True)
 	defer_to_original = db.Column(db.Boolean(), default=True)
-	priority          = db.Column(db.String(20), default="deny")
 	allow_groups      = db.relationship("Group", backref="config")
 
 	def jsonify(self):
@@ -265,5 +264,4 @@ class Config(db.Model):
 		response['create_accounts']   = self.create_accounts
 		response['defer_to_original'] = self.defer_to_original
 		response['allow_groups']      = [g.name for g in self.allow_groups]
-		response['priority']          = self.priority
 		return response

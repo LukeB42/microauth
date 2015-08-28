@@ -24,16 +24,11 @@ class ConfigResource(restful.Resource):
 		config = key.config
 
 		parser = reqparse.RequestParser()
-		parser.add_argument("priority",type=str, help="Whether to prefer allow groups over deny groups.")
 		parser.add_argument("permit_root_login", type=bool, help='Determines whether the username "root" can authenticate')
 		parser.add_argument("create_accounts", type=bool, help="Determines whether to create accounts for authenticated users.")
 		parser.add_argument("defer_to_original", type=bool, help="Determines whether to fall back to the original login program")
 		parser.add_argument("allow",type=str, help="Comma separated list of groups to allow")
-		parser.add_argument("deny",type=str, help="Comma separated list of groups to deny")
 		args = parser.parse_args()
-
-		if args.priority and args.priority in ['allow', 'deny']:
-			key.priority = args.priority
 
 		if args.permit_root_login:
 			key.permit_root_login = args.permit_root_login
