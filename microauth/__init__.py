@@ -25,7 +25,7 @@ from microauth.resources import users
 from microauth.resources import groups
 from microauth.resources import privs
 from microauth.resources import events
-
+from microauth.resources import config
 
 def init():
 
@@ -72,3 +72,5 @@ def init():
 
 	api.add_resource(events.EventCollection,     "/events")
 	api.add_resource(events.EventResource,       "/events/<string:username>")
+
+	api.add_resource(config.ConfigResource,      "/config")

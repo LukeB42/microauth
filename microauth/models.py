@@ -18,7 +18,7 @@ class APIKey(db.Model):
 	id         = db.Column(db.Integer, primary_key=True)
 	name       = db.Column(db.String(80))
 	key        = db.Column(db.String(120))	
-	active     = db.Column(db.Boolean())
+	active     = db.Column(db.Boolean(), default=True)
 	created    = db.Column(db.DateTime(), default=db.func.now())
 	systemwide = db.Column(db.Boolean())
 	global_del = db.Column(db.Boolean())
@@ -26,6 +26,13 @@ class APIKey(db.Model):
 	privs  = db.relationship("Priv", backref="key")
 	groups  = db.relationship("Group", backref="key")
 	events = db.relationship("Event", backref="key")
+	config = db.relationship("Config", uselist=False, backref="key")
+
+	def __init__(self, **kwargs):
+		for key,value in kwargs.items():
+			setattr(self, key, value)
+		self.config = Config()
+		self.key    = self.generate_key_str()
 
 	def generate_key_str(self):
 		return bcrypt.hashpw(os.urandom(20),
@@ -94,13 +101,14 @@ user_groups = db.Table('user_groups',
 
 class Group(db.Model):
 	__tablename__ = 'groups'
-	id      = db.Column(db.Integer, primary_key=True)
-	name    = db.Column(db.String(20))
-	users   = db.relationship("User", backref="groups")
-	key_id  = db.Column(db.Integer(), db.ForeignKey("api_keys.id"))
-	users   = db.relationship("User", secondary=user_groups, backref="groups")
-	privs   = db.relationship("Acl", backref="group")
-	created = db.Column(db.DateTime(), default=db.func.now())
+	id        = db.Column(db.Integer, primary_key=True)
+	name      = db.Column(db.String(20))
+	users     = db.relationship("User", backref="groups")
+	key_id    = db.Column(db.Integer(), db.ForeignKey("api_keys.id"))
+	users     = db.relationship("User", secondary=user_groups, backref="groups")
+	privs     = db.relationship("Acl", backref="group")
+	created   = db.Column(db.DateTime(), default=db.func.now())
+	config_id = db.Column(db.Integer(), db.ForeignKey("config.id"))
 
 	def add_parent(self, parent):
 		self.parents.append(parent)
@@ -238,3 +246,22 @@ class Event(db.Model):
 			return '<Event "%s" -> %s (%s) on %s>' % \
 			(self.user.username, self.key.name, self.success, self.created.strftime("%A, %d. %B %Y %I:%M%p"))
 		return "<Event>"
+
+class Config(db.Model):
+	tablename__ = 'config'
+	id                = db.Column(db.Integer(), primary_key = True)
+	key_id            = db.Column(db.Integer(), db.ForeignKey("api_keys.id"))
+	uid               = db.Column(db.String(20), default=uid())
+	permit_root_login = db.Column(db.Boolean(), default=False)
+	create_accounts   = db.Column(db.Boolean(), default=True)
+	defer_to_original = db.Column(db.Boolean(), default=True)
+	allow_groups      = db.relationship("Group", backref="config")
+
+	def jsonify(self):
+		response = {}	
+		response['uid'] = self.uid
+		response['permit_root_login'] = self.permit_root_login
+		response['create_accounts']   = self.create_accounts
+		response['defer_to_original'] = self.defer_to_original
+		response['allow_groups']      = [g.name for g in self.allow_groups]
+		return response

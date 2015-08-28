@@ -70,8 +70,6 @@ class KeyCollection(restful.Resource):
 			if key: abort(403, message="A key already exists with this name.")
 
 			key = APIKey(name=args.name)
-			key.key = key.generate_key_str()
-			key.active = True
 			db.session.add(key)
 			db.session.commit()
 
