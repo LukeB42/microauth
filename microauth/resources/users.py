@@ -83,7 +83,7 @@ class UserResource(restful.Resource):
 		key = auth()
 		user = get(key, User, ('username', username))
 
-		if user is None:
+		if not user:
 			return {}, 404
 		else:
 			parser = reqparse.RequestParser()
