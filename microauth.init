@@ -1,0 +1,27 @@
+#!/bin/sh
+# /etc/init.d/microauth
+#
+# Sys-V init script for Microauth.
+# Luke Brooks (Luke.Brooks@begbies-traynor.com)
+#
+# Carry out specific functions when asked to by the system
+KEY=/etc/pki/tls/microauth/key
+CERT=/etc/pki/tls/microauth/cert
+
+case "$1" in
+  start)
+    echo "Starting Microauth."
+	python -m microauth.run -d --cert $CERT --key $KEY
+    ;;
+  stop)
+    echo "Stopping Microauth."
+    python -m microauth.run --stop
+    ;;
+  *)
+    echo "Usage: /etc/init.d/microauth {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
+
