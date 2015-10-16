@@ -103,7 +103,6 @@ class Group(db.Model):
 	__tablename__ = 'groups'
 	id        = db.Column(db.Integer, primary_key=True)
 	name      = db.Column(db.String(20))
-	users     = db.relationship("User", backref="groups")
 	key_id    = db.Column(db.Integer(), db.ForeignKey("api_keys.id"))
 	users     = db.relationship("User", secondary=user_groups, backref="groups")
 	privs     = db.relationship("Acl", backref="group")
