@@ -19,6 +19,7 @@ setup(
         "Flask-RESTful",
         "Flask-SQLAlchemy",
         "bcrypt",
+        "gevent",
         "requests",
         "pyopenssl",
     ]
