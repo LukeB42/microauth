@@ -1,8 +1,6 @@
-import requests
-import pprint
-import json
-import cmd
 import os
+import json
+import requests
 os.environ['no_proxy'] = '127.0.0.1,localhost'
 requests.packages.urllib3.disable_warnings()
 
@@ -10,8 +8,6 @@ class Client(object):
 	def __init__(self, key, base_url, verify=True, timeout=2.000):
 		self.key = key
 		self.base = base_url
-		pp = pprint.PrettyPrinter(indent=4)
-		self.p = pp.pprint
 		self.verify_https = verify
 		self.timeout = timeout
 
@@ -53,9 +49,6 @@ class Client(object):
 
 	def delete(self, url, body={}, headers={}):
 		return self._send_request(url, type='DELETE', body=body, headers=headers)
-
-	def pp(self, url, type='GET', body={}, headers={}):
-		self.p(self._send_request(url, type, body, headers))
 
 	def keys(self, type='GET', body={}, headers={}):
 		return self._send_request("keys", type, body, headers)
