@@ -51,7 +51,7 @@ class UserCollection(restful.Resource):
 		parser = reqparse.RequestParser()
 		parser.add_argument("username",   type=str, help="Username of account", required=True)
 		parser.add_argument("name",       type=str, help="Name of account", required=True)
-		parser.add_argument("email",      type=str, help="Email address of account", default="")
+		parser.add_argument("email",      type=str, help="Email address of account", required=False)
 		parser.add_argument("password",   type=str, help="Password of account", required=True)
 		parser.add_argument("systemwide", type=bool, help="Determines whether this user has a parent API Key", default=None)
 		args = parser.parse_args()
@@ -167,30 +167,6 @@ class UserResource(restful.Resource):
 
 
 class UserLogin(restful.Resource):
-
-	def post(self, username):
-		key = auth()
-		user = get(key, User, ('username', username))
-
-		if user is None:
-			abort(404, message="User {0} not found.".format(username))
-
-		parser = reqparse.RequestParser()
-		parser.add_argument("password", type=str, help="Password of account", required=True)
-		args = parser.parse_args()
-
-		if user.verify_password(args.password):
-			user.last_login = datetime.datetime.now()
-			ev = Event(user=user, key=key, success=True)
-			db.session.add(ev)
-			db.session.commit()    
-			return True            
-		ev = Event(user=user, key= key, success=False)
-		db.session.add(ev)         
-		db.session.commit()
-		return False
-
-
 
 	def post(self, username):
 		key = auth()
