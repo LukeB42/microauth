@@ -5,6 +5,7 @@ import pprint
 import optparse
 from microauth.client import Client
 from microauth.models import APIKey
+from microauth.utils  import spaceparse
 
 try:
     from pygments import highlight
@@ -13,20 +14,33 @@ try:
     from pygments.formatters.terminal256 import Terminal256Formatter
 except ImportError: highlight = False
 
+def suppress_unicode_repr(object, context, maxlevels, level):
+    typ = pprint._type(object)
+    if typ is unicode:
+        object = str(object)
+    return pprint._safe_repr(object, context, maxlevels, level)
+
 class repl(cmd.Cmd):
 
     prompt = "> "        
     intro = "Microauth repl."
     ruler = '-'
+    printer = pprint.PrettyPrinter()
+    printer.format = suppress_unicode_repr
 
     def parse_args(self, args):
         body = {}
+        parsed = spaceparse(args)
         args = args.split()
         for i in args:
             try:
                 x=i.split('=')
-                body[x[0]] = x[1]
+                if type(parsed) == dict and not x[0] in parsed:
+                    parsed[x[0]] = x[1]
+                else:
+                    body[x[0]] = x[1]
             except: continue
+        if type(parsed) == dict: body = parsed
         return body
 
     def do_setkey(self,key):
@@ -90,7 +104,7 @@ class repl(cmd.Cmd):
             print(response[1])
             print(highlight(json.dumps(response[0],indent=4), JSONLexer(), Terminal256Formatter(style=self.style)))
         else:
-            print(pprint.pformat(response))
+            print(self.printer.pprint(response))
 
 def reqwrap(func):
     def wrapper(*args, **kwargs):
