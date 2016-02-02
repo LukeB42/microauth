@@ -12,7 +12,7 @@ print banner
 
 setup(
     name="microauth",
-    version='0.0.2',
+    version='0.1.3',
     packages=["microauth", "microauth.resources"],
     zip_safe=False,
     install_requires=[

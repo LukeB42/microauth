@@ -27,9 +27,9 @@ class UserCollection(restful.Resource):
 		key = auth()
 
 		parser = reqparse.RequestParser()
-		parser.add_argument("page", type=int, help="Current page number.")
+		parser.add_argument("page",     type=int, help="Current page number.")
 		parser.add_argument("per_page", type=int, help="Items per page.")
-		parser.add_argument("id", type=str, help="Unique ID")
+		parser.add_argument("id",       type=str, help="Unique ID")
 		args = parser.parse_args()
 		if args.page:
 			if args.per_page:
@@ -49,16 +49,16 @@ class UserCollection(restful.Resource):
 		key = auth()
 
 		parser = reqparse.RequestParser()
-		parser.add_argument("username", type=str, help="Username of account", required=True)
-		parser.add_argument("name", type=str, help="Name of account", required=True)
-		parser.add_argument("email", type=str, help="Email address of account", required=True)
-		parser.add_argument("password", type=str, help="Password of account", required=True)
+		parser.add_argument("username",   type=str, help="Username of account", required=True)
+		parser.add_argument("name",       type=str, help="Name of account", required=True)
+		parser.add_argument("email",      type=str, help="Email address of account", default="")
+		parser.add_argument("password",   type=str, help="Password of account", required=True)
 		parser.add_argument("systemwide", type=bool, help="Determines whether this user has a parent API Key", default=None)
 		args = parser.parse_args()
 
 		msg = "%s may only contain alphanumeric characters, underscores, spaces and hyphens."
 		if not re.match("^[\w\-\s]+$",args.username): abort(422, message=msg % "Usernames")
-		if not re.match("^[\w\-\s]+$",args.name):     abort(422, message=msg % "Names")
+		if not re.match("^[\w\-\s]+$",args.name):     abort(423, message=msg % "Names")
 
 		if get(key, User, ('username', args.username)):
 			return {"message":"User already exists."}, 304
@@ -102,11 +102,11 @@ class UserResource(restful.Resource):
 		user = get(key, User, ('username', username))
 
 		parser = reqparse.RequestParser()
-		parser.add_argument("username", type=str, help="Username of account")
-		parser.add_argument("name", type=str, help="Name of account")
-		parser.add_argument("email", type=str, help="Email address of account")
-		parser.add_argument("key", type=str, help="Key to introduce the user to (requires systemwide:0)")
-		parser.add_argument("password", type=str, help="Password of account")
+		parser.add_argument("username",   type=str, help="Username of account")
+		parser.add_argument("name",       type=str, help="Name of account")
+		parser.add_argument("email",      type=str, help="Email address of account")
+		parser.add_argument("key",        type=str, help="Key to introduce the user to (requires systemwide:0)")
+		parser.add_argument("password",   type=str, help="Password of account")
 		parser.add_argument("systemwide", type=bool, help="A global user", default=None)
 		args = parser.parse_args()
 
@@ -168,7 +168,7 @@ class UserResource(restful.Resource):
 
 class UserLogin(restful.Resource):
 
-	def get(self, username):
+	def post(self, username):
 		key = auth()
 		user = get(key, User, ('username', username))
 
@@ -182,13 +182,11 @@ class UserLogin(restful.Resource):
 		if user.verify_password(args.password):
 			user.last_login = datetime.datetime.now()
 			ev = Event(user=user, key=key, success=True)
-			print ev
 			db.session.add(ev)
-			print db.session.dirty
-			db.session.commit()
-			return True
-		ev = Event(user=user, key=key, success=False)
-		db.session.add(ev)
+			db.session.commit()    
+			return True            
+		ev = Event(user=user, key= key, success=False)
+		db.session.add(ev)         
 		db.session.commit()
 		return False
 

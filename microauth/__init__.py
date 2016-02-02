@@ -12,7 +12,7 @@ __all__ = ["run", "client", "repl", "resources", "models", "utils"]
 
 app = Flask("microauth")
 app.config.from_object("microauth.config")
-app.version = "Microauth 0.1.2"
+app.version = "Microauth 0.1.3"
 app.config['HTTP_BASIC_AUTH_REALM'] = app.version
 
 api = restful.Api(app, prefix='/v1')
