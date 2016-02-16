@@ -49,9 +49,9 @@ class UserCollection(restful.Resource):
 		key = auth()
 
 		parser = reqparse.RequestParser()
+		parser.add_argument("name",       type=str, help="Name of account")
+		parser.add_argument("email",      type=str, help="Email address of account")
 		parser.add_argument("username",   type=str, help="Username of account", required=True)
-		parser.add_argument("name",       type=str, help="Name of account", required=True)
-		parser.add_argument("email",      type=str, help="Email address of account", required=False)
 		parser.add_argument("password",   type=str, help="Password of account", required=True)
 		parser.add_argument("systemwide", type=bool, help="Determines whether this user has a parent API Key", default=None)
 		args = parser.parse_args()
