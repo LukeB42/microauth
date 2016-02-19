@@ -5,73 +5,73 @@ os.environ['no_proxy'] = '127.0.0.1,localhost'
 requests.packages.urllib3.disable_warnings()
 
 class Client(object):
-	def __init__(self, key, base_url, verify=True, timeout=2.5):
-		self.key = key
-		self.base = base_url
-		self.verify_https = verify
-		self.timeout = timeout
+    def __init__(self, key, base_url, verify=True, timeout=2.5, username=None):
+        self.key = key
+        self.base = base_url
+        self.verify_https = verify
+        self.timeout = timeout
 
-		# Defining a username manually on your client objects will
-		# permit you to use the .can() shortcut for determining
-		# the username's access rights.
-		self.username = None
+        # Defining a username manually on your client objects will
+        # permit you to use the .can() shortcut for determining
+        # the username's access rights.
+        self.username = username
 
-		if not self.base.endswith('/'):
-			self.base += '/'
+        if not self.base.endswith('/'):
+            self.base += '/v1/'
 
-	def _send_request(self, url, type='GET', body={}, headers={}):
-		headers['Authorization'] =  "Basic %s" % self.key
-		url = self.base+url
-		resp = None
-		if type=='GET':
-			resp = requests.get(url, verify=self.verify_https,
-				headers=headers, timeout=self.timeout)
-		elif type=='DELETE':
-			resp = requests.delete(url, verify=self.verify_https,
-				data=body, headers=headers, timeout=self.timeout)
-		elif type=='PUT':
-			resp = requests.put(url, verify=self.verify_https,
-				data=body, headers=headers, timeout=self.timeout)
-		elif type=='POST':
-			resp = requests.post(url, verify=self.verify_https,
-				data=body, headers=headers, timeout=self.timeout)
-		try: return resp.json(), resp.status_code
-		except: return {}, resp.status_code
+    def _send_request(self, url, type='GET', body={}, headers={}):
+        headers['Authorization'] =  "Basic %s" % self.key
+        url = self.base+url
+        resp = None
+        if type=='GET':
+            resp = requests.get(url, verify=self.verify_https,
+                headers=headers, timeout=self.timeout)
+        elif type=='DELETE':
+            resp = requests.delete(url, verify=self.verify_https,
+                data=body, headers=headers, timeout=self.timeout)
+        elif type=='PUT':
+            resp = requests.put(url, verify=self.verify_https,
+                data=body, headers=headers, timeout=self.timeout)
+        elif type=='POST':
+            resp = requests.post(url, verify=self.verify_https,
+                data=body, headers=headers, timeout=self.timeout)
+        try: return resp.json(), resp.status_code
+        except: return {}, resp.status_code
 
-	def get(self, url, body={}, headers={}):
-		return self._send_request(url, body=body, headers=headers)
+    def get(self, url, headers={}):
+        return self._send_request(url, headers=headers)
 
-	def put(self, url, body={}, headers={}):
-		return self._send_request(url, type='PUT', body=body, headers=headers)
+    def put(self, url, body={}, headers={}):
+        return self._send_request(url, type='PUT', body=body, headers=headers)
 
-	def post(self, url, body={}, headers={}):
-		return self._send_request(url, type='POST', body=body, headers=headers)
+    def post(self, url, body={}, headers={}):
+        return self._send_request(url, type='POST', body=body, headers=headers)
 
-	def delete(self, url, body={}, headers={}):
-		return self._send_request(url, type='DELETE', body=body, headers=headers)
+    def delete(self, url, body={}, headers={}):
+        return self._send_request(url, type='DELETE', body=body, headers=headers)
 
-	def keys(self, type='GET', body={}, headers={}):
-		return self._send_request("keys", type, body, headers)
+    def keys(self, type='GET', body={}, headers={}):
+        return self._send_request("keys", type, body, headers)
 
-	def users(self, type='GET', body={}, headers={}):
-		return self._send_request("users", type, body, headers)
+    def users(self, type='GET', body={}, headers={}):
+        return self._send_request("users", type, body, headers)
 
-	def roles(self, type='GET', body={}, headers={}):
-		return self._send_request("roles", type, body, headers)
+    def roles(self, type='GET', body={}, headers={}):
+        return self._send_request("roles", type, body, headers)
 
-	def privs(self, type='GET', body={}, headers={}):
-		return self._send_request("privs", type, body, headers)
+    def privs(self, type='GET', body={}, headers={}):
+        return self._send_request("privs", type, body, headers)
 
-	def user(self):
-		if not self.username: raise Exception("No username attribute defined.")
-		return self._send_request('users/' + self.username)[0]
+    def user(self):
+        if not self.username: raise Exception("No username attribute defined.")
+        return self._send_request('users/' + self.username)[0]
 
-	def can(self, priv):
-		if self.username:
-			(resp, status) =  self._send_request('users/%s?can=%s' % \
-				(self.username, priv))
-			if status == 200: return resp
-		raise Exception("No username attribute defined.")
+    def can(self, priv):
+        if not self.username:
+            raise Exception("No username attribute defined.")
+        (resp, status) =  self._send_request('users/%s?can=%s' % \
+            (self.username, priv))
+        if status == 200: return resp
 
-	def __repr__(self):
-		return "<API Client for %s>" % self.base
+    def __repr__(self):
+        return "<API Client for %s>" % self.base
