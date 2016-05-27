@@ -29,48 +29,48 @@ from microauth.resources import config
 
 def init():
 
-	try:
-		import setproctitle
-		setproctitle.setproctitle("microauth")
-	except ImportError:
-		pass
+    try:
+        import setproctitle
+        setproctitle.setproctitle("microauth")
+    except ImportError:
+        pass
 
-	inspector = Inspector.from_engine(db.engine)
-	tables = [table_name for table_name in inspector.get_table_names()]
+    inspector = Inspector.from_engine(db.engine)
+    tables = [table_name for table_name in inspector.get_table_names()]
 
-	if 'users' not in tables:
-		db.create_all()
-		master = models.APIKey(name = app.config['MASTER_KEY_NAME'])
-		if app.config['MASTER_KEY']: master.key = app.config['MASTER_KEY']
-		else: master.key = master.generate_key_str()
-		print master.key
-		master.active     = True
-		master.systemwide = True
-		master.global_del = True
-		db.session.add(master)
-		db.session.commit()
+    if 'users' not in tables:
+        db.create_all()
+        master = models.APIKey(name = app.config['MASTER_KEY_NAME'])
+        if app.config['MASTER_KEY']: master.key = app.config['MASTER_KEY']
+        else: master.key = master.generate_key_str()
+        print master.key
+        master.active     = True
+        master.systemwide = True
+        master.global_del = True
+        db.session.add(master)
+        db.session.commit()
 
 
 
-	api.add_resource(api_key.KeyCollection,    "/keys")
-	api.add_resource(api_key.KeyResource,      "/keys/<string:name>")
+    api.add_resource(api_key.KeyCollection,     "/keys")
+    api.add_resource(api_key.KeyResource,       "/keys/<string:name>")
 
-	api.add_resource(users.UserCollection,     "/users")
-	api.add_resource(users.UserResource,       "/users/<string:username>")
-	api.add_resource(users.UserLogin,          "/users/<string:username>/login")
+    api.add_resource(users.UserCollection,      "/users")
+    api.add_resource(users.UserResource,        "/users/<string:username>")
+    api.add_resource(users.UserLogin,           "/users/<string:username>/login")
+    
+    api.add_resource(groups.GroupCollection,    "/groups")
+    api.add_resource(groups.GroupResource,      "/groups/<string:name>")
+    api.add_resource(groups.GroupResourcePrivs, "/groups/<string:name>/privs")
+    api.add_resource(groups.GroupResourceUsers, "/groups/<string:name>/users")
+    api.add_resource(groups.GrantPrivs,         "/groups/<string:name>/grant")
+    api.add_resource(groups.DenyPrivs,          "/groups/<string:name>/deny")
+    api.add_resource(groups.RevokePrivs,        "/groups/<string:name>/revoke")
 
-	api.add_resource(groups.GroupCollection,    "/groups")
-	api.add_resource(groups.GroupResource,      "/groups/<string:name>")
-	api.add_resource(groups.GroupResourcePrivs, "/groups/<string:name>/privs")
-	api.add_resource(groups.GroupResourceUsers, "/groups/<string:name>/users")
-	api.add_resource(groups.GrantPrivs,         "/groups/<string:name>/grant")
-	api.add_resource(groups.DenyPrivs,          "/groups/<string:name>/deny")
-	api.add_resource(groups.RevokePrivs,        "/groups/<string:name>/revoke")
+    api.add_resource(privs.PrivCollection,      "/privs")
+    api.add_resource(privs.PrivResource,        "/privs/<string:name>")
 
-	api.add_resource(privs.PrivCollection,     "/privs")
-	api.add_resource(privs.PrivResource,       "/privs/<string:name>")
+    api.add_resource(events.EventCollection,    "/events")
+    api.add_resource(events.EventResource,      "/events/<string:username>")
 
-	api.add_resource(events.EventCollection,     "/events")
-	api.add_resource(events.EventResource,       "/events/<string:username>")
-
-	api.add_resource(config.ConfigResource,      "/config")
+    api.add_resource(config.ConfigResource,     "/config")

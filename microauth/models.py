@@ -224,6 +224,9 @@ class User(db.Model):
         return "<User %s>" % self.username
 
 class Event(db.Model):
+    """
+    Event objects form a log of authentication attempts.
+    """
     __tablename__ = 'eventlog'
     id       = db.Column(db.Integer(), primary_key=True)
     uid      = db.Column(db.String(36), default=uid())
@@ -248,6 +251,12 @@ class Event(db.Model):
         return "<Event>"
 
 class Config(db.Model):
+    """
+    Configuration rows store settings for Microauth-Login to obtain
+    configuration from a central instance of Microauth.
+    Check /v1/config and microauth/resources/config.py in this project.
+    Configuration objects are singular to API keys.
+    """
     tablename__ = 'config'
     id                = db.Column(db.Integer(), primary_key = True)
     key_id            = db.Column(db.Integer(), db.ForeignKey("api_keys.id"))
