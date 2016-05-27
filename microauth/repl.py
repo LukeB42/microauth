@@ -35,12 +35,13 @@ class repl(cmd.Cmd):
         for i in args:
             try:
                 x=i.split('=')
-                if type(parsed) == dict and not x[0] in parsed:
+                if isinstance(parsed, dict) and not x[0] in parsed:
                     parsed[x[0]] = x[1]
                 else:
                     body[x[0]] = x[1]
             except: continue
-        if type(parsed) == dict: body = parsed
+        if isinstance(parsed, dict):
+            body = parsed
         return body
 
     def do_setkey(self,key):

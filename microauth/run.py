@@ -9,37 +9,36 @@ from gevent.wsgi   import WSGIServer
 
 from microauth import app, init
 
-class Daemon:
-    def __init__(self, pidfile):
-        try:
-            pid = os.fork()
-            if pid > 0:
-                sys.exit(0) # End parent
-        except OSError, e:
-            sys.stderr.write("fork #1 failed: %d (%s)\n" % (e.errno, e.strerror))
-            sys.exit(-2)
-        os.setsid()
-        os.umask(0)
-        try:
-            pid = os.fork()
-            if pid > 0:
-                try:
-                    # TODO: Read the file first and determine if already running.
-                    f = file(pidfile, 'w')
-                    f.write(str(pid))
-                    f.close()
-                except IOError, e:
-                    logging.error(e)
-                    sys.stderr.write(repr(e))
-                sys.exit(0) # End parent
-        except OSError, e:
-            sys.stderr.write("fork #2 failed: %d (%s)\n" % (e.errno, e.strerror))
-            sys.exit(-2)
-        for fd in (0, 1, 2):
+def daemonise(pidfile):
+    try:
+        pid = os.fork()
+        if pid > 0:
+            sys.exit(0) # End parent
+    except OSError, e:
+        sys.stderr.write("fork #1 failed: %d (%s)\n" % (e.errno, e.strerror))
+        sys.exit(-2)
+    os.setsid()
+    os.umask(0)
+    try:
+        pid = os.fork()
+        if pid > 0:
             try:
-                os.close(fd)
-            except OSError:
-                pass
+                # TODO: Read the file first and determine if already running.
+                f = file(pidfile, 'w')
+                f.write(str(pid))
+                f.close()
+            except IOError, e:
+                logging.error(e)
+                sys.stderr.write(repr(e))
+            sys.exit(0) # End parent
+    except OSError, e:
+        sys.stderr.write("fork #2 failed: %d (%s)\n" % (e.errno, e.strerror))
+        sys.exit(-2)
+    for fd in (0, 1, 2):
+        try:
+            os.close(fd)
+        except OSError:
+            pass
 
 if __name__ == "__main__":
     parser = optparse.OptionParser(prog="python -m microauth.run", version=app.version)
@@ -95,7 +94,7 @@ if __name__ == "__main__":
         raise SystemExit
 
     if options.daemonise:
-        Daemon(options.pidfile)
+        daemonise(options.pidfile)
 
     init()
 
